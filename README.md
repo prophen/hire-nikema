@@ -10,6 +10,7 @@ Job-search page for developer relations roles. Astro for pages, React components
 npm install
 npm run dev          # site at http://localhost:4321
 npm run storybook    # Storybook at http://localhost:6006 (Storybook MCP at /mcp)
+npm test             # runs every story as a test (interactions + accessibility) in headless Chromium
 ```
 
 ## Edit content
@@ -25,8 +26,4 @@ All copy lives in `src/data/profile.ts`. Lines marked `DRAFT` still need a real-
 ## Agent tooling
 
 - **Storybook MCP** (local): run `npm run storybook`, then add it to your agent with `claude mcp add --transport http storybook http://localhost:6006/mcp`.
-- **Chromatic MCP**:
-  1. Create a Chromatic project.
-  2. Publish to it with `CHROMATIC_PROJECT_TOKEN=… npm run chromatic`.
-  3. Add a `chromatic.config.json` file with `{ "projectId": "Project:<appId>" }`.
-  4. Connect the MCP server with `claude mcp add --transport http --scope user chromatic https://mcp.chromatic.com/mcp`, then authorize it through `/mcp`.
+- **Chromatic MCP**: the project is already set up and `chromatic.config.json` has its ID. Publish with `CHROMATIC_PROJECT_TOKEN=… npm run chromatic`. Keep the token out of the repo. Connect the MCP server with `claude mcp add --transport http --scope user chromatic https://mcp.chromatic.com/mcp`, then authorize it through `/mcp`.
