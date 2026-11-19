@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.astro/
+storybook-static/
+build-storybook.log
+.DS_Store
+.env

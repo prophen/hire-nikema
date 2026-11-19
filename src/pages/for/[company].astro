@@ -1,0 +1,14 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Page from "../../components/Page.astro";
+import { profile } from "../../data/profile";
+import { companies } from "../../data/companies";
+
+export function getStaticPaths() {
+  return companies.map((company) => ({ params: { company: company.slug }, props: { company } }));
+}
+const { company } = Astro.props;
+---
+<Layout title={`${profile.name} · for ${company.name}`} description={profile.summary} noindex>
+  <Page company={company} />
+</Layout>

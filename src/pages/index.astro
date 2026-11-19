@@ -1,0 +1,8 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Page from "../components/Page.astro";
+import { profile } from "../data/profile";
+---
+<Layout title={`${profile.name} · ${profile.role}`} description={profile.summary}>
+  <Page />
+</Layout>
