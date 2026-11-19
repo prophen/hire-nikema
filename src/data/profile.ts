@@ -29,7 +29,7 @@ export const profile = {
   status: "open to DevRel & developer advocate roles",
   location: "Sacramento, CA",
 
-  bookingUrl: "", // TODO: Cal.com / Calendly link. Falls back to email when empty.
+  bookingUrl: "https://cal.boardy.ai/nikemaprophet", // falls back to email when empty
   email: "nikema@gmail.com",
   resumeUrl: "/Nikema_Prophet_Resume.pdf", // TODO: drop the PDF into /public
 
