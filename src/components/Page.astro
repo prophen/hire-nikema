@@ -13,6 +13,8 @@ import { RoleFitChecker } from "./RoleFitChecker";
 import { Footer } from "./Footer";
 interface Props { company?: Company }
 const { company } = Astro.props;
+const contactUrl = profile.bookingUrl || `mailto:${profile.email}`;
+const contactLabel = profile.bookingUrl ? "book a 20-min chat →" : "say hi →";
 ---
 <main class="page">
   <Hero client:load profile={profile} companyNote={company} />
@@ -23,5 +25,5 @@ const { company } = Astro.props;
   <Testimonials items={profile.testimonials} />
   <RoleFitChecker client:visible />
   <NowAndLogistics now={profile.now} logistics={profile.logistics} />
-  <Footer client:visible profile={profile} />
+  <Footer client:visible handle={profile.handle} contactUrl={contactUrl} contactLabel={contactLabel} />
 </main>

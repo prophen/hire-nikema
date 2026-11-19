@@ -16,4 +16,4 @@ export const NowLogistics: Story = { render: () => <NowAndLogistics now={profile
 export const TestimonialsFilled: Story = {
   render: () => <Testimonials items={[{ quote: "Placeholder quote, to be replaced with a real one.", name: "Teammate Name", role: "Role, Company" }]} />,
 };
-export const FooterWithEasterEgg: Story = { render: () => <Footer profile={profile} /> };
+export const FooterWithEasterEgg: Story = { render: () => <Footer handle={profile.handle} contactUrl={profile.bookingUrl} contactLabel="book a 20-min chat →" /> };
