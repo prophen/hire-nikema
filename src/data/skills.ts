@@ -36,7 +36,10 @@ const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 function termPattern(term: string): RegExp {
   const prefix = term.endsWith("*");
   const body = escape(prefix ? term.slice(0, -1) : term);
-  return new RegExp(`(?<![a-z0-9])${body}${prefix ? "" : "(?:s|es)?(?![a-z0-9])"}`);
+  // Only require a word boundary next to a letter or digit, so ".net" still matches "ASP.NET".
+  const start = /^[a-z0-9]/.test(term) ? "(?<![a-z0-9])" : "";
+  const end = prefix || !/[a-z0-9]$/.test(term) ? "" : "(?:s|es)?(?![a-z0-9])";
+  return new RegExp(`${start}${body}${end}`);
 }
 
 const matches = (text: string, terms: string[]) => terms.some((term) => termPattern(term).test(text));
