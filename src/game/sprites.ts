@@ -395,6 +395,15 @@ export function drawRoom(ctx: Ctx) {
   drawTable(ctx);
 }
 
+/**
+ * The classic filter sorts colours by brightness, and the avatar's skin, shirt and pants all land
+ * in the same middle shade, so the player reads as unclothed. Keep the skin, but light the shirt
+ * and darken the pants so each part gets its own shade.
+ */
+export function classicAvatar(a: Avatar): Avatar {
+  return { ...a, shirt: C.white, pants: C.ink };
+}
+
 /** Four shades of green, like the original handheld screen. */
 const DMG = [[15, 56, 15], [48, 98, 48], [139, 172, 15], [155, 188, 15]];
 
