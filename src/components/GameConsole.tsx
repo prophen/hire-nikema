@@ -6,7 +6,7 @@ import {
   type Dir, type PanelId, type Pt, type Thing,
 } from "../game/room";
 import {
-  drawAlert, drawCat, drawClockHands, drawPCScreen, drawPlayer, drawRoom, drawTVScreen, toClassicPalette,
+  ALERT_HEIGHT, classicAvatar, drawAlert, drawCat, drawClockHands, drawPCScreen, drawPlayer, drawRoom, drawTVScreen, toClassicPalette,
 } from "../game/sprites";
 import { PanelContent } from "./GamePanels";
 
@@ -366,14 +366,14 @@ export function GameConsole({ profile, company, classic: classicInitial = false,
       const pFrame = walking && s.t > 0.25 && s.t < 0.85 ? 1 + (s.steps % 2) : 0;
       const sprites = [
         { y: cy, draw: () => drawCat(ctx, cx, cy - 3, Math.floor(clock / 160) % 25 === 0) },
-        { y: py, draw: () => drawPlayer(ctx, px, py - 4, s.dir, pFrame, profile.avatar) },
+        { y: py, draw: () => drawPlayer(ctx, px, py - 4, s.dir, pFrame, ui.current.classic ? classicAvatar(profile.avatar) : profile.avatar) },
       ].sort((a, b) => a.y - b.y);
       sprites.forEach((sp) => sp.draw());
 
       if (!busy && s.t >= 1 && !s.path.length) {
         const [dx, dy] = STEP[s.dir];
         const t = thingAt(things, s.pos[0] + dx, s.pos[1] + dy, c.pos);
-        if (t && Math.floor(clock / 400) % 4 !== 3) drawAlert(ctx, px + 4, Math.max(0, py - 15));
+        if (t && Math.floor(clock / 400) % 4 !== 3) drawAlert(ctx, px + 4, Math.max(0, py - 5 - ALERT_HEIGHT));
       }
 
       if (ui.current.classic) toClassicPalette(ctx);

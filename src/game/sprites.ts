@@ -159,12 +159,27 @@ export function drawCat(ctx: Ctx, x: number, y: number, blink: boolean) {
   grid(ctx, blink ? CAT_BLINK : CAT, x, y, pal);
 }
 
+// The dot needs a white row under it, or it merges into the border and the "!" reads as cut off.
+const ALERT = [
+  ".kkkkk.",
+  "kwwwwwk",
+  "kwwkwwk",
+  "kwwkwwk",
+  "kwwkwwk",
+  "kwwkwwk",
+  "kwwwwwk",
+  "kwwkwwk",
+  "kwwwwwk",
+  ".kkwkk.",
+  "..kwk..",
+  "...k...",
+];
+/** Height of the "!" balloon, tail included, so callers can sit it above the player. */
+export const ALERT_HEIGHT = ALERT.length;
+
 /** A small "!" balloon shown when the player faces something to inspect. */
 export function drawAlert(ctx: Ctx, x: number, y: number) {
-  box(ctx, x, y, 7, 9, C.white);
-  rect(ctx, x + 3, y + 2, 1, 4, C.ink);
-  rect(ctx, x + 3, y + 7 - 0, 1, 1, C.ink);
-  rect(ctx, x + 2, y + 9, 2, 1, C.ink);
+  grid(ctx, ALERT, x, y, { k: C.ink, w: C.white });
 }
 
 // ---------- room ----------
@@ -378,6 +393,15 @@ export function drawRoom(ctx: Ctx) {
   drawPlant(ctx, 9 * TILE, 2 * TILE);
   drawPlant(ctx, 0, 8 * TILE);
   drawTable(ctx);
+}
+
+/**
+ * The classic filter sorts colours by brightness, and the avatar's skin, shirt and pants all land
+ * in the same middle shade, so the player reads as unclothed. Keep the skin, but light the shirt
+ * and darken the pants so each part gets its own shade.
+ */
+export function classicAvatar(a: Avatar): Avatar {
+  return { ...a, shirt: C.white, pants: C.ink };
 }
 
 /** Four shades of green, like the original handheld screen. */

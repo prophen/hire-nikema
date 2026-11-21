@@ -37,7 +37,7 @@ export function Hero({ profile, companyNote, classic, frozen }: Props) {
           Explore my room to see my work. The TV has my intro, the PC has my projects, and the cat checks job posts.
         </p>
         <div className="actions">
-          <a className="btn" href={contact}>{profile.bookingUrl ? "Book a 20-min chat" : "Say hi"}</a>
+          <a className="btn" href={contact}>{profile.bookingUrl ? "Book a 15-min chat" : "Say hi"}</a>
           <a className="btn ghost desktop-only" href="#profile">See the work ↓</a>
         </div>
         <nav className="socials" aria-label="Social links">
