@@ -149,6 +149,7 @@ export function GameConsole({ profile, company, classic: classicInitial = false 
   }, [typed, things, frontThing, inspect, openPanel]);
 
   const pressB = useCallback(() => {
+    g.current.held = null;
     if (ui.current.dialog) setDialog(null);
     else if (ui.current.menu !== null) setMenu(null);
   }, []);
@@ -257,7 +258,8 @@ export function GameConsole({ profile, company, classic: classicInitial = false 
       const nx = s.pos[0] + STEP[d][0], ny = s.pos[1] + STEP[d][1];
       if (blocked(nx, ny, "player")) {
         const t = thingAt(things, nx, ny, s.cat.pos);
-        if (t?.id === "door") inspect(t);
+        // Walking into the door opens it once; holding the direction shouldn't reopen it.
+        if (t?.id === "door") { s.held = null; inspect(t); }
         return false;
       }
       s.from = s.pos; s.pos = [nx, ny]; s.t = 0;
