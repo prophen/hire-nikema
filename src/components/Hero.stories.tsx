@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { profile } from "../data/profile";
 import { Hero } from "./Hero";
 
-const meta = { component: Hero, args: { profile } } satisfies Meta<typeof Hero>;
+const meta = { component: Hero, args: { profile, frozen: true } } satisfies Meta<typeof Hero>;
 export default meta;
 type Story = StoryObj<typeof meta>;
 
