@@ -6,7 +6,7 @@ import {
   type Dir, type PanelId, type Pt, type Thing,
 } from "../game/room";
 import {
-  drawAlert, drawCat, drawClockHands, drawPCScreen, drawPlayer, drawRoom, drawTVScreen, toClassicPalette,
+  ALERT_HEIGHT, drawAlert, drawCat, drawClockHands, drawPCScreen, drawPlayer, drawRoom, drawTVScreen, toClassicPalette,
 } from "../game/sprites";
 import { PanelContent } from "./GamePanels";
 
@@ -373,7 +373,7 @@ export function GameConsole({ profile, company, classic: classicInitial = false,
       if (!busy && s.t >= 1 && !s.path.length) {
         const [dx, dy] = STEP[s.dir];
         const t = thingAt(things, s.pos[0] + dx, s.pos[1] + dy, c.pos);
-        if (t && Math.floor(clock / 400) % 4 !== 3) drawAlert(ctx, px + 4, Math.max(0, py - 15));
+        if (t && Math.floor(clock / 400) % 4 !== 3) drawAlert(ctx, px + 4, Math.max(0, py - 5 - ALERT_HEIGHT));
       }
 
       if (ui.current.classic) toClassicPalette(ctx);
