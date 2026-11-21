@@ -275,10 +275,15 @@ section { scroll-margin-top: 16px; }
 .project dt { font: 9px/1.8 var(--px); color: var(--red); }
 .project dd { margin: 0; }
 .project .stack { list-style: none; padding: 0; margin: auto 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.link-row { list-style: none; padding: 0; margin: 4px 0 0; display: flex; flex-wrap: wrap; gap: 4px 0; font-size: 16px; }
+.link-row li:not(:last-child)::after { content: "·"; margin: 0 8px; color: var(--ink-2); }
+.project .link-row { margin: 0; }
+a.badge { text-decoration: none; }
+a.badge:hover { color: var(--red-dark); border-color: var(--red-dark); }
 .more-title { margin-top: 26px !important; }
 .more { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 8px; }
-.more li { padding-left: 22px; position: relative; }
-.more li::before { content: ""; position: absolute; left: 2px; top: 8px; width: 8px; height: 10px; background: var(--red); clip-path: polygon(0 0, 100% 50%, 0 100%); }
+.more > li { padding-left: 22px; position: relative; }
+.more > li::before { content: ""; position: absolute; left: 2px; top: 8px; width: 8px; height: 10px; background: var(--red); clip-path: polygon(0 0, 100% 50%, 0 100%); }
 
 /* lists */
 .card-title { font: 11px/1.7 var(--px); color: var(--ink); margin: 0 0 10px; }
@@ -286,8 +291,8 @@ section { scroll-margin-top: 16px; }
 .kv dt { font: 10px/2.2 var(--px); color: var(--red); }
 .kv dd { margin: 0; }
 .plain { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
-.trophies li { padding-left: 26px; position: relative; }
-.trophies li::before { content: ""; position: absolute; left: 0; top: 5px; width: 14px; height: 14px; background: #d6a019; box-shadow: 0 0 0 2px var(--ink);
+.trophies > li { padding-left: 26px; position: relative; }
+.trophies > li::before { content: ""; position: absolute; left: 0; top: 5px; width: 14px; height: 14px; background: #d6a019; box-shadow: 0 0 0 2px var(--ink);
   clip-path: polygon(50% 0, 63% 35%, 100% 38%, 72% 60%, 82% 100%, 50% 78%, 18% 100%, 28% 60%, 0 38%, 37% 35%); }
 
 /* contact */
