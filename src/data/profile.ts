@@ -49,19 +49,23 @@ export const profile = {
   ] satisfies Link[],
 
   video: {
-    src: "", // TODO: add once recorded, e.g. "/intro.mp4"
-    poster: "",
-    captions: "", // TODO: .vtt captions file
+    // All three files live in /public. Captions match the transcript below.
+    src: "/intro.mp4",
+    poster: "/intro-poster.jpg",
+    captions: "/intro.vtt",
     chapters: [
       { label: "Who I am", start: 0 },
-      { label: "What I'm looking for", start: 20 },
-      { label: "Why your team", start: 45 },
+      { label: "What I'm building", start: 17 },
+      { label: "What I'm looking for", start: 60 },
+      { label: "Why your team", start: 66 },
     ] satisfies Chapter[],
-    // Shown while the video doesn't exist yet, and as the transcript afterwards.
+    // Shown under the video. Keep it in sync with public/intro.vtt.
     transcript: [
-      "Hi, I'm Nikema. I'm a developer advocate and software engineer.",
-      "I was a developer advocate at PayPal, then an engineer on developer.paypal.com. Before that I ran community content at Armory and co-led contributor experience for Spinnaker.",
-      "These days I build AI apps in public and write up what broke and how I fixed it. That's the job I want: helping developers get from first try to working code.",
+      "Hi, I'm Nikema Prophet. I'm a developer advocate who builds things. I was a developer advocate at PayPal, then an engineer on developer.paypal.com. Before that, I ran community content at Armory and co-led contributor experience for Spinnaker.",
+      "Right now I'm building Impossible Hires. It's an opt-in talent network for people whose work doesn't fit one job title: the people who build the demo, write the docs and notice where users get stuck. I've built it in public, one piece at a time. First the interest forms, then private profile sharing, where nobody's profile goes to an employer until that person approves the exact version being sent. Then a fictional demo that anyone can try, including an MCP server so AI agents can search it too.",
+      "The biggest lesson so far: when I couldn't explain consent-based introductions with copy, an interactive demo with made-up profiles did it for me. I'm showing what's working and being honest about what isn't done yet.",
+      "I'm looking for a developer advocate role at a company that builds developer tools, APIs or AI tooling.",
+      "If you want an advocate who ships real demos, writes clear and accessible docs, and brings what developers say back to the product team, let's talk. I'd prefer remote. I'm based in Sacramento, and I'd move to the Bay Area for the right role. Let's chat. You can find my booking link on this page.",
     ],
   },
 

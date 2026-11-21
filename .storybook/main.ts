@@ -9,5 +9,7 @@ const config: StorybookConfig = {
     "@storybook/addon-vitest"
   ],
   framework: { name: "@storybook/react-vite", options: {} },
+  // Serve /public so stories can load the intro video, poster and captions.
+  staticDirs: ["../public"],
 };
 export default config;
