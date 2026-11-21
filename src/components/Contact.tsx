@@ -10,7 +10,7 @@ export function Contact({ profile }: { profile: Profile }) {
         {profile.status}. The fastest way to reach me is a short call.
       </p>
       <div className="actions">
-        <a className="btn" href={contact}>{profile.bookingUrl ? "Book a 20-min chat" : "Say hi"}</a>
+        <a className="btn" href={contact}>{profile.bookingUrl ? "Book a 15-min chat" : "Say hi"}</a>
       </div>
       <nav className="socials" aria-label="Links">
         {profile.socials.map((s) => <a key={s.href} href={s.href} rel="me noopener">{s.label}</a>)}

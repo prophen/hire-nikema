@@ -15,7 +15,7 @@ import { Footer } from "./Footer";
 interface Props { company?: Company }
 const { company } = Astro.props;
 const contactUrl = profile.bookingUrl || `mailto:${profile.email}`;
-const contactLabel = profile.bookingUrl ? "Book a 20-min chat" : "Say hi";
+const contactLabel = profile.bookingUrl ? "Book a 15-min chat" : "Say hi";
 ---
 <main class="page">
   <Hero client:load profile={profile} companyNote={company} />
