@@ -107,7 +107,7 @@ h1, h2, h3 { text-wrap: balance; }
 .hero h1 .l2 { display: block; font: 600 clamp(20px, 2.6vw, 26px)/1.3 var(--body); color: var(--red); margin-top: 12px; text-shadow: none; }
 .hero .note { background: var(--gold-bg); border: 2px solid var(--ink); border-radius: 4px; padding: 10px 14px; margin: 0 0 16px; }
 .hero .summary { margin: 0 0 12px; max-width: 46ch; font-size: 20px; }
-.hero .skip { margin: 0 0 16px; }
+.hero .skip { margin: 0; }
 .hero .quest { margin: 0 0 22px; max-width: 46ch; color: var(--ink-2); }
 .actions { display: flex; flex-wrap: wrap; gap: 14px; }
 .socials { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 22px; }

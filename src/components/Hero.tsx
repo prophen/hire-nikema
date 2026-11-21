@@ -29,10 +29,10 @@ export function Hero({ profile, companyNote, classic, frozen }: Props) {
             <b>For {companyNote.name}:</b> {companyNote.note}
           </p>
         )}
+        <p className="skip mobile-only"><a className="btn ghost" href="#profile">See the work ↓</a></p>
       </div>
       <div className="hero-rest">
         <p className="summary">{profile.summary}</p>
-        <p className="skip mobile-only"><a className="btn ghost" href="#profile">See the work ↓</a></p>
         <p className="quest">
           Explore my room to see my work. The TV has my intro, the PC has my projects, and the cat checks job posts.
         </p>
