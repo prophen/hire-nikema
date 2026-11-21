@@ -37,7 +37,9 @@ export const profile = {
   avatar: { skin: "#a8683c", hair: "#2a1a14", shirt: "#d0405a", pants: "#3a4a8a" },
 
   bookingUrl: "https://cal.boardy.ai/nikemaprophet", // falls back to email when empty
-  email: "nikema@gmail.com",
+  // Left empty so the address isn't published (the repo and Storybook are public).
+  // Only used as a mailto: fallback if bookingUrl is removed.
+  email: "",
   resumeUrl: "/Nikema_Prophet_Resume.pdf", // lives in /public
 
   socials: [

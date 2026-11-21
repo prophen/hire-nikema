@@ -11,7 +11,6 @@ export function Contact({ profile }: { profile: Profile }) {
       </p>
       <div className="actions">
         <a className="btn" href={contact}>{profile.bookingUrl ? "Book a 20-min chat" : "Say hi"}</a>
-        <a className="btn ghost" href={`mailto:${profile.email}`}>Email me</a>
       </div>
       <nav className="socials" aria-label="Links">
         {profile.socials.map((s) => <a key={s.href} href={s.href} rel="me noopener">{s.label}</a>)}
