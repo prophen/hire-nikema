@@ -234,14 +234,23 @@ export function GameConsole({ profile, company, classic: classicInitial = false,
     else walkToTile([tx, ty]);
   };
 
+  // When the last D-pad pointerdown happened, so a click that follows it isn't counted twice.
+  const lastPadPointer = useRef(0);
   const padProps = (d: Dir) => ({
-    onPointerDown: (e: RPointerEvent<HTMLButtonElement>) => { e.preventDefault(); e.currentTarget.setPointerCapture(e.pointerId); press(d, true); },
+    onPointerDown: (e: RPointerEvent<HTMLButtonElement>) => {
+      lastPadPointer.current = performance.now();
+      press(d, true);
+      e.preventDefault();
+      // Capture keeps a held press working if the finger slides; some iOS browsers throw here.
+      try { e.currentTarget.setPointerCapture(e.pointerId); } catch { /* not needed for a tap */ }
+    },
     onPointerUp: () => release(d),
     onPointerCancel: () => release(d),
     onLostPointerCapture: () => release(d),
-    // Keyboard activation of a D-pad button takes one step.
+    // Keyboard activation takes one step. So does a tap in a browser whose pointer events
+    // never reached onPointerDown.
     onClick: (e: React.MouseEvent) => {
-      if (e.detail !== 0) return;
+      if (e.detail !== 0 && performance.now() - lastPadPointer.current < 800) return;
       if (ui.current.menu !== null) { moveMenu(d); return; }
       if (!ui.current.dialog) { g.current.path = [d]; g.current.goal = null; }
     },
