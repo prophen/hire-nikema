@@ -11,8 +11,8 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /** Before the intro is recorded: placeholder slot, transcript open, chapters disabled. */
-export const NotRecordedYet: Story = {};
-/** After recording: real player, chapters seek. */
-export const WithVideo: Story = {
-  args: { src: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" },
+export const NotRecordedYet: Story = {
+  args: { src: "", poster: "", captions: "" },
 };
+/** After recording: real player, chapters seek. */
+export const WithVideo: Story = {};
