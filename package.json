@@ -11,7 +11,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "chromatic": "chromatic --exit-zero-on-changes",
-    "test": "vitest run"
+    "test": "vitest run",
+    "og": "node scripts/og/render.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^7.1.9",
@@ -32,6 +33,7 @@
     "@vitest/browser-playwright": "^5.1.1",
     "@vitest/coverage-v8": "^5.1.1",
     "chromatic": "^18.15.0",
+    "esbuild": "^0.28.2",
     "playwright": "^1.65.1",
     "storybook": "^10.6.7",
     "typescript": "^6.0.3",
