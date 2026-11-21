@@ -36,9 +36,9 @@ export function VideoIntro({ src, poster, captions, chapters, transcript }: Prop
           </video>
         ) : (
           <div className="video-empty">
-            <div className="play" aria-hidden="true">▶</div>
-            <div className="file">intro.mp4</div>
-            <div className="rec">recording in progress</div>
+            <div className="play" aria-hidden="true" />
+            <div className="file">NO SIGNAL</div>
+            <div className="rec">intro tape still recording</div>
           </div>
         )}
       </div>
@@ -51,7 +51,7 @@ export function VideoIntro({ src, poster, captions, chapters, transcript }: Prop
         ))}
       </div>
       <details className="transcript" open={!hasVideo}>
-        <summary>{hasVideo ? "read the transcript" : "cat intro.txt"}</summary>
+        <summary>{hasVideo ? "Read the transcript" : "Transcript"}</summary>
         <div>{transcript.map((p, i) => <p key={i}>{p}</p>)}</div>
       </details>
     </div>

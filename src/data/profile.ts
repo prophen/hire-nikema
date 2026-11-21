@@ -29,6 +29,9 @@ export const profile = {
   status: "open to DevRel & developer advocate roles",
   location: "Sacramento, CA",
 
+  // Colors for the pixel-art player in the hero room. Change these to look like you.
+  avatar: { skin: "#a8683c", hair: "#2a1a14", shirt: "#d0405a", pants: "#3a4a8a" },
+
   bookingUrl: "https://cal.boardy.ai/nikemaprophet", // falls back to email when empty
   email: "nikema@gmail.com",
   resumeUrl: "/Nikema_Prophet_Resume.pdf", // TODO: drop the PDF into /public

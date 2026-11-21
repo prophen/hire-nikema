@@ -1,32 +1,33 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { checkFit } from "../data/skills";
-import { TerminalWindow } from "./TerminalWindow";
+import { PixelWindow } from "./PixelWindow";
+import { Section } from "./Section";
 
-type Props = { initialText?: string };
+type Props = { initialText?: string; bare?: boolean };
 
 /** Paste a job description; get a keyword match against Nikema's experience. Runs entirely in the browser. */
-export function RoleFitChecker({ initialText = "" }: Props) {
+export function RoleFitChecker({ initialText = "", bare }: Props) {
+  const id = useId();
   const [text, setText] = useState(initialText);
   const [result, setResult] = useState(() => (initialText ? checkFit(initialText) : null));
 
   return (
-    <section id="fit-check" aria-labelledby="checker-title">
-      <h2 className="section-title" id="checker-title">does this role fit?</h2>
-      <TerminalWindow title="fit-check — paste a job description">
+    <Section id="fit-check" title="Does this role fit?" bare={bare}>
+      <PixelWindow title="FIT CHECK">
         <form
           className="checker"
           onSubmit={(e) => { e.preventDefault(); setResult(checkFit(text)); }}
         >
-          <label htmlFor="jd" className="sr-only">Job description</label>
+          <label htmlFor={id} className="sr-only">Job description</label>
           <textarea
-            id="jd"
+            id={id}
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder="> paste a job description here_"
+            placeholder="Paste a job description here…"
           />
           <div className="row">
-            <button className="btn" type="submit" disabled={!text.trim()}>run fit-check</button>
-            <span className="dim mono" style={{ fontSize: 12 }}>keyword match · nothing leaves your browser</span>
+            <button className="btn" type="submit" disabled={!text.trim()}>Run fit check</button>
+            <span className="dim small">keyword match · nothing leaves your browser</span>
           </div>
           {result && (
             <div className="out" aria-live="polite">
@@ -41,7 +42,7 @@ export function RoleFitChecker({ initialText = "" }: Props) {
                       <li key={h.label}><span className="green">[✓] {h.label}</span> <span className="dim">· {h.evidence}</span></li>
                     ))}
                     {result.misses.map((m) => (
-                      <li key={m.label}><span style={{ color: "var(--yellow)" }}>[~] {m.label}</span> <span className="dim">· not on my résumé yet. Happy to talk about it.</span></li>
+                      <li key={m.label}><span style={{ color: "var(--gold)" }}>[~] {m.label}</span> <span className="dim">· not on my résumé yet. Happy to talk about it.</span></li>
                     ))}
                   </ul>
                 </>
@@ -49,7 +50,7 @@ export function RoleFitChecker({ initialText = "" }: Props) {
             </div>
           )}
         </form>
-      </TerminalWindow>
-    </section>
+      </PixelWindow>
+    </Section>
   );
 }

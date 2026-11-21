@@ -1,17 +1,18 @@
-type Props = { items: { title: string; body: string }[] };
+import { Section } from "./Section";
 
-export function HowIWork({ items }: Props) {
+type Props = { items: { title: string; body: string }[]; bare?: boolean };
+
+export function HowIWork({ items, bare }: Props) {
   return (
-    <section aria-labelledby="how-title">
-      <h2 className="section-title" id="how-title">how I work</h2>
+    <Section id="how" title="How I work" bare={bare}>
       <div className="grid-2">
         {items.map((i) => (
           <div className="panel" key={i.title}>
-            <p className="card-title">{i.title}</p>
+            <h3 className="card-title">{i.title}</h3>
             <p style={{ margin: 0 }}>{i.body}</p>
           </div>
         ))}
       </div>
-    </section>
+    </Section>
   );
 }

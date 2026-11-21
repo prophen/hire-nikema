@@ -3,14 +3,14 @@ import { useState } from "react";
 type Props = { handle: string; contactUrl: string; contactLabel: string };
 
 export function Footer({ handle, contactUrl, contactLabel }: Props) {
-  const [sudo, setSudo] = useState(false);
+  const [joined, setJoined] = useState(false);
   return (
     <footer className="footer">
       <div>
-        <button type="button" className="egg" onClick={() => setSudo(true)}>$ sudo hire {handle}</button>
-        {sudo && (
+        <button type="button" className="egg" onClick={() => setJoined(true)}>CONTINUE? ▶ YES</button>
+        {joined && (
           <div className="egg-out" role="status">
-            [sudo] permission granted. <a href={contactUrl}>Let's talk →</a>
+            {handle.toUpperCase()} joined your team! <a href={contactUrl}>Let's talk</a>
           </div>
         )}
       </div>

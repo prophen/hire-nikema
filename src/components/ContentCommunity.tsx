@@ -1,14 +1,14 @@
 import type { Link } from "../data/profile";
+import { Section } from "./Section";
 
-type Props = { content: (Link & { note: string })[]; community: string[] };
+type Props = { content: (Link & { note: string })[]; community: string[]; bare?: boolean };
 
-export function ContentCommunity({ content, community }: Props) {
+export function ContentCommunity({ content, community, bare }: Props) {
   return (
-    <section aria-labelledby="content-title">
-      <h2 className="section-title" id="content-title">content &amp; community</h2>
+    <Section id="content" title="Content & community" bare={bare}>
       <div className="grid-2">
         <div className="panel">
-          <p className="card-title">published</p>
+          <h3 className="card-title">Published</h3>
           <ul className="plain">
             {content.map((c) => (
               <li key={c.label}>
@@ -19,10 +19,10 @@ export function ContentCommunity({ content, community }: Props) {
           </ul>
         </div>
         <div className="panel">
-          <p className="card-title">community</p>
-          <ul className="plain">{community.map((c) => <li key={c}>{c}</li>)}</ul>
+          <h3 className="card-title">Community</h3>
+          <ul className="plain trophies">{community.map((c) => <li key={c}>{c}</li>)}</ul>
         </div>
       </div>
-    </section>
+    </Section>
   );
 }

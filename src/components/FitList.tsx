@@ -1,19 +1,20 @@
-type Props = { yes: string[]; no: string[] };
+import { Section } from "./Section";
 
-export function FitList({ yes, no }: Props) {
+type Props = { yes: string[]; no: string[]; bare?: boolean };
+
+export function FitList({ yes, no, bare }: Props) {
   return (
-    <section aria-labelledby="fit-title">
-      <h2 className="section-title" id="fit-title">what I'm looking for</h2>
+    <Section id="fit" title="What I'm looking for" bare={bare}>
       <div className="grid-2 fit">
         <div className="panel yes">
           <h3>I'm a fit if…</h3>
           <ul>{yes.map((x) => <li key={x}>{x}</li>)}</ul>
         </div>
         <div className="panel no">
-          <h3>probably not a fit if…</h3>
+          <h3>Probably not a fit if…</h3>
           <ul>{no.map((x) => <li key={x}>{x}</li>)}</ul>
         </div>
       </div>
-    </section>
+    </Section>
   );
 }
