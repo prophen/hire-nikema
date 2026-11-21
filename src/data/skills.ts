@@ -6,7 +6,7 @@ export const skills: Skill[] = [
   { label: "docs & tutorials", terms: ["documentation", "docs", "tutorial", "technical writ", "guide"], evidence: "PayPal Donate SDK guide with three demo implementations" },
   { label: "sample apps & demos", terms: ["sample app", "demo", "example app", "prototype", "quickstart"], evidence: "Ships a live demo and write-up for every project" },
   { label: "video content", terms: ["video", "livestream", "stream", "youtube", "screencast"], evidence: "Video demos and walkthroughs for each AI project" },
-  { label: "community", terms: ["community", "open source", "open-source", "contributor", "meetup", "discord"], evidence: "Spinnaker Contributor Experience co-lead; CDF Most Valuable Contributor" },
+  { label: "community", terms: ["community", "open source", "open-source", "contributor", "meetup", "discord", " event ", " events", "hackathon", "in-person", "in person"], evidence: "Spinnaker Contributor Experience co-lead; CDF Most Valuable Contributor; Women Who Code weekly sessions" },
   { label: "developer feedback loop", terms: ["feedback", "product team", "friction", "developer experience", "dx"], evidence: "Audited PayPal docs and brought integration friction to product and engineering" },
   { label: "API onboarding", terms: ["api", "sdk", "onboarding", "integration"], evidence: "Created API onboarding materials at PayPal" },
   { label: "AI / LLM apps", terms: ["ai", "llm", "machine learning", "genai", "agent", "mcp", "rag"], evidence: "Talk to the Book, Fact Card Workflow, Ask California Black Stories" },

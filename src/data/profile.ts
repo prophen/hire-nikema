@@ -72,9 +72,10 @@ export const profile = {
       "Your docs, onboarding, or sample apps need someone who can write and code",
       "You build developer tools, APIs, or AI tooling",
       "You value accessibility and clear, honest technical writing",
+      "You want someone who shows up for the developer and builder community, in person and online",
     ],
     no: [
-      "The role is mostly event travel with little building",
+      "Your engineering culture isn't AI-friendly",
       "You need a pure sales engineer",
     ],
   },
