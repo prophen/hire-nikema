@@ -402,7 +402,7 @@ export function GameConsole({ profile, company, classic: classicInitial = false 
             />
             {dialog && (
               <div className="gb-text" onClick={pressA}>
-                <span aria-hidden="true">{page.slice(0, typed)}</span>
+                <span key={dialog.i} aria-hidden="true">{page.slice(0, typed)}</span>
                 {typed >= page.length && <span className="gb-next" aria-hidden="true" />}
               </div>
             )}

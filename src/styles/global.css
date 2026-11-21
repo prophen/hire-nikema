@@ -146,8 +146,12 @@ h1, h2, h3 { text-wrap: balance; }
 .gb-text {
   left: calc(var(--sc) * 2); right: calc(var(--sc) * 2); bottom: calc(var(--sc) * 2);
   height: calc(var(--sc) * 46);
-  padding: calc(var(--sc) * 6) calc(var(--sc) * 7);
-  white-space: pre-line; overflow: hidden; cursor: pointer;
+  padding: calc(var(--sc) * 5) calc(var(--sc) * 7);
+  line-height: 1.5;
+  white-space: pre-line; cursor: pointer;
+  /* clip can't be scrolled (hidden can), and its own layer repaints cleanly over the animated canvas */
+  overflow: clip;
+  transform: translateZ(0);
 }
 .gb-next {
   position: absolute; right: calc(var(--sc) * 6); bottom: calc(var(--sc) * 5);
