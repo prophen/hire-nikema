@@ -49,7 +49,9 @@ export function GameConsole({ profile, company, classic: classicInitial = false 
   }, [company, name]);
 
   const [dialog, setDialog] = useState<Dialog | null>({ pages: welcome, i: 0 });
-  const [typed, setTyped] = useState(0);
+  // The typewriter count is tied to the page it was typed on, so a new page never
+  // renders with the previous page's count (which would flash the full text).
+  const [typedState, setTypedState] = useState<{ d: Dialog | null; n: number }>({ d: null, n: 0 });
   const [menu, setMenu] = useState<number | null>(null);
   const [panel, setPanel] = useState<PanelId | null>(null);
   const [classic, setClassic] = useState(classicInitial);
@@ -99,11 +101,15 @@ export function GameConsole({ profile, company, classic: classicInitial = false 
 
   // ---------- typewriter ----------
   const page = dialog ? dialog.pages[dialog.i] : "";
+  const typed = typedState.d === dialog ? typedState.n : reducedMotion() ? page.length : 0;
+  const setTyped = useCallback((n: number) => setTypedState({ d: dialog, n }), [dialog]);
   useEffect(() => {
-    if (!dialog) return;
-    if (reducedMotion()) { setTyped(page.length); return; }
-    setTyped(0);
-    const id = setInterval(() => setTyped((n) => (n >= page.length ? (clearInterval(id), n) : n + 1)), 22);
+    if (!dialog || reducedMotion()) return;
+    setTypedState({ d: dialog, n: 0 });
+    const id = setInterval(() => setTypedState((t) => {
+      if (t.d !== dialog || t.n >= page.length) { clearInterval(id); return t; }
+      return { ...t, n: t.n + 1 };
+    }), 22);
     return () => clearInterval(id);
   }, [dialog, page]);
 
@@ -146,7 +152,7 @@ export function GameConsole({ profile, company, classic: classicInitial = false 
     const t = frontThing();
     if (t) inspect(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [typed, things, frontThing, inspect, openPanel]);
+  }, [typed, setTyped, things, frontThing, inspect, openPanel]);
 
   const pressB = useCallback(() => {
     g.current.held = null;
@@ -404,7 +410,7 @@ export function GameConsole({ profile, company, classic: classicInitial = false 
             />
             {dialog && (
               <div className="gb-text" onClick={pressA}>
-                <span key={dialog.i} aria-hidden="true">{page.slice(0, typed)}</span>
+                <span aria-hidden="true">{page.slice(0, typed)}</span>
                 {typed >= page.length && <span className="gb-next" aria-hidden="true" />}
               </div>
             )}
