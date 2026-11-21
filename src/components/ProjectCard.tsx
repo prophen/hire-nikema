@@ -10,7 +10,7 @@ export function ProjectCard({ project: p }: { project: Project }) {
         : <div className="badge">{p.badge}</div>)}
       <p className="tagline">{p.tagline}</p>
       <dl>
-        <div><dt>What was hard</dt><dd>{p.hard}</dd></div>
+        {p.hard && <div><dt>What was hard</dt><dd>{p.hard}</dd></div>}
         <div><dt>What I learned</dt><dd>{p.learned}</dd></div>
       </dl>
       <LinkRow links={p.links} label={`${p.name} links`} />

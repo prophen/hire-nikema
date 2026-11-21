@@ -11,7 +11,7 @@ export type Project = {
   badge?: string;
   badgeUrl?: string;
   stack: string[];
-  hard: string; // what was hard
+  hard?: string; // what was hard (leave out if nothing was)
   learned: string; // what I learned / would do differently
   links?: Link[];
 };
@@ -135,8 +135,6 @@ export const profile = {
       url: "https://dotmd.page",
       tagline: "A person.md file, at a URL that's yours.",
       stack: ["Markdown", "Agents"],
-      // DRAFT: hard needs Nikema's review
-      hard: "Designing one profile format that's readable by both people and AI agents.",
       learned: "How to treat AI agents as users and design features with them in mind.",
     },
   ] satisfies Project[],
