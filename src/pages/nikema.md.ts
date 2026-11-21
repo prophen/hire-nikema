@@ -33,7 +33,6 @@ ${p.community.map((x) => `- ${x.href ? `[${x.label}](${x.href})` : x.label}${lin
 ${p.content.map((x) => `- ${x.href ? `[${x.label}](${x.href})` : x.label}: ${x.note}`).join("\n")}
 
 ## Contact
-- Email: ${p.email}
 ${p.bookingUrl ? `- Book a call: ${p.bookingUrl}\n` : ""}${p.socials.map((s) => `- ${s.label}: ${s.href}`).join("\n")}
 - Web: ${base}/
 `;
