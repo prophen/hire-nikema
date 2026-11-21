@@ -125,7 +125,8 @@ export const profile = {
       badgeUrl: "https://dev.to/devteam/congrats-to-the-hacktoberfest-open-source-ai-challenge-week-3-slow-and-steady-winners-3e4a",
       stack: ["Next.js", "TypeScript", "ElevenLabs", "Gemma", "Ollama"],
       hard: "The local model kept returning malformed JSON that broke the drafting step.",
-      learned: "Treat model output like user input: check it, and plan for it to be broken.",
+      learned:
+        "Treat model output like user input. I tuned the inference settings and added a forgiving parser so malformed JSON couldn't break the drafting step.",
       links: [
         { label: "Code", href: "https://github.com/prophen/talk-to-the-book" },
         { label: "Video demo", href: "https://www.youtube.com/watch?v=SUf2oJdjbjY" },
