@@ -135,8 +135,9 @@ export const profile = {
       url: "https://dotmd.page",
       tagline: "A person.md file, at a URL that's yours.",
       stack: ["Markdown", "Agents"],
-      hard: "DRAFT: designing one profile format that's readable by both people and AI agents.",
-      learned: "DRAFT: plain text at a stable URL beats a fancy profile page for agents.",
+      // DRAFT: hard/learned need Nikema's review
+      hard: "Designing one profile format that's readable by both people and AI agents.",
+      learned: "Plain text at a stable URL beats a fancy profile page for agents.",
     },
   ] satisfies Project[],
 
