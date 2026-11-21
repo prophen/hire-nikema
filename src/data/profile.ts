@@ -38,7 +38,7 @@ export const profile = {
 
   bookingUrl: "https://cal.boardy.ai/nikemaprophet", // falls back to email when empty
   email: "nikema@gmail.com",
-  resumeUrl: "/Nikema_Prophet_Resume.pdf", // TODO: drop the PDF into /public
+  resumeUrl: "/Nikema_Prophet_Resume.pdf", // lives in /public
 
   socials: [
     { label: "GitHub", href: "https://github.com/prophen" },
@@ -179,7 +179,8 @@ export const profile = {
   community: [
     { label: "CDF Spinnaker Most Valuable Contributor (2021)" },
     { label: "AWS Community Builder (2021)" },
-    { label: "Spinnaker Contributor Experience co-lead", href: "https://spinnaker.io/", links: [{ label: "Site source", href: "https://github.com/spinnaker/spinnaker.io" }] },
+    { label: "Spinnaker Contributor Experience co-lead" },
+    { label: "Rebuilt the Spinnaker community website in Hugo (2021)", href: "https://spinnaker.io/", links: [{ label: "Source", href: "https://github.com/spinnaker/spinnaker.io" }] },
     { label: "Women Who Code at Sacramento City College, Vice-President" },
   ] satisfies Credit[] as Credit[],
 
