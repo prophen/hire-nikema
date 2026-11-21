@@ -79,7 +79,7 @@ export const profile = {
       "You want someone who shows up for the developer and builder community, in person and online",
     ],
     no: [
-      "Your engineering culture isn't AI-friendly",
+      "AI tooling is off-limits on your team",
       "You need a pure sales engineer",
     ],
   },
