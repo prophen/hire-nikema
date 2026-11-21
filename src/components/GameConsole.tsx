@@ -15,6 +15,8 @@ type Props = {
   company?: { name: string; note: string };
   /** Start in the four-shade green palette. */
   classic?: boolean;
+  /** Hold every animation still (no wandering cat, no typing, no blinking), for visual tests. */
+  frozen?: boolean;
 };
 
 type Dialog = { pages: string[]; i: number; panel?: PanelId };
@@ -36,7 +38,7 @@ function reducedMotion() {
  * Walk with arrows / WASD / D-pad, inspect things with A, open a shortcut menu with START.
  * Tapping or clicking a spot in the room walks there; tapping a thing walks over and inspects it.
  */
-export function GameConsole({ profile, company, classic: classicInitial = false }: Props) {
+export function GameConsole({ profile, company, classic: classicInitial = false, frozen = false }: Props) {
   const things = useMemo(() => buildThings(profile, company), [profile, company]);
   const solid = useMemo(() => solidGrid(things), [things]);
   const name = profile.name.split(" ")[0].toUpperCase();
@@ -101,17 +103,18 @@ export function GameConsole({ profile, company, classic: classicInitial = false 
 
   // ---------- typewriter ----------
   const page = dialog ? dialog.pages[dialog.i] : "";
-  const typed = typedState.d === dialog ? typedState.n : reducedMotion() ? page.length : 0;
+  const instantText = frozen || reducedMotion();
+  const typed = typedState.d === dialog ? typedState.n : instantText ? page.length : 0;
   const setTyped = useCallback((n: number) => setTypedState({ d: dialog, n }), [dialog]);
   useEffect(() => {
-    if (!dialog || reducedMotion()) return;
+    if (!dialog || instantText) return;
     setTypedState({ d: dialog, n: 0 });
     const id = setInterval(() => setTypedState((t) => {
       if (t.d !== dialog || t.n >= page.length) { clearInterval(id); return t; }
       return { ...t, n: t.n + 1 };
     }), 22);
     return () => clearInterval(id);
-  }, [dialog, page]);
+  }, [dialog, page, instantText]);
 
   // ---------- actions ----------
   const openPanel = useCallback((id: PanelId) => {
@@ -318,7 +321,7 @@ export function GameConsole({ profile, company, classic: classicInitial = false 
       if (c.t < 1) {
         c.t = Math.min(1, c.t + dt / CAT_STEP_MS);
         if (c.t >= 1) c.from = c.pos;
-      } else if (!busy && !s.goal) {
+      } else if (!busy && !s.goal && !frozen) {
         c.next -= dt;
         if (c.next <= 0) {
           c.next = 2000 + Math.random() * 3500;
@@ -332,9 +335,10 @@ export function GameConsole({ profile, company, classic: classicInitial = false 
 
       // draw
       ctx.drawImage(bg, 0, 0);
-      drawPCScreen(ctx, now);
-      drawTVScreen(ctx, now, Boolean(profile.video.src));
-      drawClockHands(ctx, now);
+      const clock = frozen ? 0 : now;
+      drawPCScreen(ctx, clock);
+      drawTVScreen(ctx, clock, Boolean(profile.video.src));
+      drawClockHands(ctx, clock);
 
       const lerp = (a: Pt, b: Pt, t: number): Pt =>
         reduce ? b : [Math.round((a[0] + (b[0] - a[0]) * t) * TILE), Math.round((a[1] + (b[1] - a[1]) * t) * TILE)];
@@ -344,7 +348,7 @@ export function GameConsole({ profile, company, classic: classicInitial = false 
       const walking = s.t < 1 && !reduce;
       const pFrame = walking && s.t > 0.25 && s.t < 0.85 ? 1 + (s.steps % 2) : 0;
       const sprites = [
-        { y: cy, draw: () => drawCat(ctx, cx, cy - 3, Math.floor(now / 160) % 25 === 0) },
+        { y: cy, draw: () => drawCat(ctx, cx, cy - 3, Math.floor(clock / 160) % 25 === 0) },
         { y: py, draw: () => drawPlayer(ctx, px, py - 4, s.dir, pFrame, profile.avatar) },
       ].sort((a, b) => a.y - b.y);
       sprites.forEach((sp) => sp.draw());
@@ -352,7 +356,7 @@ export function GameConsole({ profile, company, classic: classicInitial = false 
       if (!busy && s.t >= 1 && !s.path.length) {
         const [dx, dy] = STEP[s.dir];
         const t = thingAt(things, s.pos[0] + dx, s.pos[1] + dy, c.pos);
-        if (t && Math.floor(now / 400) % 4 !== 3) drawAlert(ctx, px + 4, Math.max(0, py - 15));
+        if (t && Math.floor(clock / 400) % 4 !== 3) drawAlert(ctx, px + 4, Math.max(0, py - 15));
       }
 
       if (ui.current.classic) toClassicPalette(ctx);
@@ -360,7 +364,7 @@ export function GameConsole({ profile, company, classic: classicInitial = false 
     raf = requestAnimationFrame(frame);
     return () => { cancelAnimationFrame(raf); io.disconnect(); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [things, solid, profile]);
+  }, [things, solid, profile, frozen]);
 
   // ---------- panel ----------
   useEffect(() => {

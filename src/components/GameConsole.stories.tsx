@@ -3,7 +3,7 @@ import { expect, userEvent, within } from "storybook/test";
 import { profile } from "../data/profile";
 import { GameConsole } from "./GameConsole";
 
-const meta = { component: GameConsole, args: { profile } } satisfies Meta<typeof GameConsole>;
+const meta = { component: GameConsole, args: { profile, frozen: true } } satisfies Meta<typeof GameConsole>;
 export default meta;
 type Story = StoryObj<typeof meta>;
 

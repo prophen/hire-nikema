@@ -7,9 +7,11 @@ type Props = {
   companyNote?: { name: string; note: string; role?: string };
   /** Start the room in the four-shade green palette. */
   classic?: boolean;
+  /** Hold the room still, for visual tests. */
+  frozen?: boolean;
 };
 
-export function Hero({ profile, companyNote, classic }: Props) {
+export function Hero({ profile, companyNote, classic, frozen }: Props) {
   const contact = profile.bookingUrl || `mailto:${profile.email}`;
 
   return (
@@ -44,7 +46,7 @@ export function Hero({ profile, companyNote, classic }: Props) {
         </nav>
       </div>
       <div className="hero-game">
-        <GameConsole profile={profile} company={companyNote} classic={classic} />
+        <GameConsole profile={profile} company={companyNote} classic={classic} frozen={frozen} />
       </div>
     </header>
   );
