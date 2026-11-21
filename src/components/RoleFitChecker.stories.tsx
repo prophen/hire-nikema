@@ -18,7 +18,7 @@ export const RunsCheck: Story = {
   play: async ({ canvasElement }) => {
     const c = within(canvasElement);
     await userEvent.type(c.getByLabelText("Job description"), JD);
-    await userEvent.click(c.getByRole("button", { name: /run fit-check/i }));
+    await userEvent.click(c.getByRole("button", { name: /run fit check/i }));
     await expect(await c.findByText("[✓] developer advocacy")).toBeInTheDocument();
     await expect(c.getByText("[~] Kubernetes")).toBeInTheDocument();
   },

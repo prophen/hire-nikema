@@ -1,0 +1,47 @@
+name: CI
+
+# Pull requests (including ones from forks) and pushes to main.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# The jobs only read the repository.
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Check, build and test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: lts/*
+          cache: npm
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
+
+  chromatic:
+    name: Chromatic
+    # Fork pull requests don't get repository secrets, so skip Chromatic for them.
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # Chromatic uses git history to find baselines
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: lts/*
+          cache: npm
+      - run: npm ci
+      # Pinned to a commit so the action that receives the token can't change underneath us.
+      - uses: chromaui/action@9cb4d65a86fe1c4c67a76a8d90f35a51a118e55f # v18.15.1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          exitZeroOnChanges: true

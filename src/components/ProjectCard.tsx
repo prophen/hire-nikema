@@ -1,18 +1,20 @@
 import type { Project } from "../data/profile";
+import { LinkRow } from "./LinkRow";
 
 export function ProjectCard({ project: p }: { project: Project }) {
   return (
     <article className="panel project">
-      <div className="project-head">
-        <h3><a href={p.url} rel="noopener">{p.name}</a></h3>
-      </div>
-      {p.badge && <div className="badge">{p.badge}</div>}
+      <h3><a href={p.url} rel="noopener">{p.name}</a></h3>
+      {p.badge && (p.badgeUrl
+        ? <a className="badge" href={p.badgeUrl} rel="noopener">{p.badge}</a>
+        : <div className="badge">{p.badge}</div>)}
       <p className="tagline">{p.tagline}</p>
       <dl>
-        <div><dt>// what was hard</dt><dd>{p.hard}</dd></div>
-        <div><dt>// what I learned</dt><dd>{p.learned}</dd></div>
+        <div><dt>What was hard</dt><dd>{p.hard}</dd></div>
+        <div><dt>What I learned</dt><dd>{p.learned}</dd></div>
       </dl>
-      <div className="stack">{p.stack.map((s) => <span className="chip" key={s}>{s}</span>)}</div>
+      <LinkRow links={p.links} label={`${p.name} links`} />
+      <ul className="stack" aria-label="Stack">{p.stack.map((s) => <li className="chip" key={s}>{s}</li>)}</ul>
     </article>
   );
 }

@@ -1,8 +1,9 @@
 ---
-// Composes the full page. Interactive pieces hydrate; everything else ships as static HTML.
+// Composes the full page: the playable room up top, then the same content as plain sections.
 import { profile } from "../data/profile";
 import type { Company } from "../data/companies";
 import { Hero } from "./Hero";
+import { VideoIntro } from "./VideoIntro";
 import { FitList } from "./FitList";
 import { Projects } from "./Projects";
 import { HowIWork } from "./HowIWork";
@@ -14,10 +15,18 @@ import { Footer } from "./Footer";
 interface Props { company?: Company }
 const { company } = Astro.props;
 const contactUrl = profile.bookingUrl || `mailto:${profile.email}`;
-const contactLabel = profile.bookingUrl ? "book a 20-min chat →" : "say hi →";
+const contactLabel = profile.bookingUrl ? "Book a 20-min chat" : "Say hi";
 ---
 <main class="page">
   <Hero client:load profile={profile} companyNote={company} />
+  <div id="profile" class="profile-intro">
+    <h2>The full profile</h2>
+    <p>Everything in the room, no controller required.</p>
+  </div>
+  <section id="intro" aria-labelledby="intro-title">
+    <h2 class="section-title" id="intro-title">Intro tape</h2>
+    <div class="intro-tape"><VideoIntro client:visible {...profile.video} /></div>
+  </section>
   <FitList {...profile.fit} />
   <Projects projects={profile.projects} more={profile.moreProjects} />
   <ContentCommunity content={profile.content} community={profile.community} />

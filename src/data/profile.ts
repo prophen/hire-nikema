@@ -9,11 +9,15 @@ export type Project = {
   url: string;
   tagline: string;
   badge?: string;
+  badgeUrl?: string;
   stack: string[];
   hard: string; // what was hard
   learned: string; // what I learned / would do differently
   links?: Link[];
 };
+
+export type MoreProject = { name: string; note: string; url?: string; links?: Link[] };
+export type Credit = { label: string; href?: string; links?: Link[] };
 
 export type Chapter = { label: string; start: number }; // start in seconds
 
@@ -29,9 +33,14 @@ export const profile = {
   status: "open to DevRel & developer advocate roles",
   location: "Sacramento, CA",
 
+  // Colors for the pixel-art player in the hero room. Change these to look like you.
+  avatar: { skin: "#a8683c", hair: "#2a1a14", shirt: "#d0405a", pants: "#3a4a8a" },
+
   bookingUrl: "https://cal.boardy.ai/nikemaprophet", // falls back to email when empty
-  email: "nikema@gmail.com",
-  resumeUrl: "/Nikema_Prophet_Resume.pdf", // TODO: drop the PDF into /public
+  // Left empty so the address isn't published (the repo and Storybook are public).
+  // Only used as a mailto: fallback if bookingUrl is removed.
+  email: "",
+  resumeUrl: "/Nikema_Prophet_Resume.pdf", // lives in /public
 
   socials: [
     { label: "GitHub", href: "https://github.com/prophen" },
@@ -108,10 +117,16 @@ export const profile = {
       url: "https://talktothebook.tech",
       tagline: "Dictate a memory, get a draft chapter, hear it read back.",
       badge: "🏆 Best Use of ElevenLabs · Hacktoberfest 2026",
+      badgeUrl: "https://dev.to/devteam/congrats-to-the-hacktoberfest-open-source-ai-challenge-week-3-slow-and-steady-winners-3e4a",
       stack: ["Next.js", "TypeScript", "ElevenLabs", "Gemma", "Ollama"],
       hard: "The local model kept returning malformed JSON that broke the drafting step.",
       learned:
         "I changed the inference settings, added a forgiving parser, and wrote up the fix. The debugging write-up got more interest than the feature.",
+      links: [
+        { label: "Code", href: "https://github.com/prophen/talk-to-the-book" },
+        { label: "Video demo", href: "https://www.youtube.com/watch?v=SUf2oJdjbjY" },
+        { label: "Write-up", href: "https://dev.to/nikema/talk-to-the-book-dictating-the-book-i-owe-57-people-406p" },
+      ],
     },
     {
       slug: "dot-md",
@@ -125,23 +140,51 @@ export const profile = {
   ] satisfies Project[],
 
   moreProjects: [
-    { name: "Fact Card Workflow", note: "AI fact cards checked against their sources, with human review" },
-    { name: "Ask California Black Stories", note: "Q&A agent over a 150-story archive that answers with source links" },
-    { name: "MotionBrief", note: "Turns a campaign brief into a short video on Cloudflare Workers" },
-  ],
+    {
+      name: "Fact Card Workflow",
+      note: "AI fact cards checked against their sources, with human review",
+      url: "https://fact-card-workflow.nikema.dev/",
+      links: [
+        { label: "Code", href: "https://github.com/prophen/fact-card-workflow" },
+        { label: "Walkthrough", href: "https://portfolio.nikema.dev/videos#fact-card-approval-gate" },
+        { label: "Write-up", href: "https://dev.to/nikema/california-black-stories-an-ai-fact-card-workflow-with-a-human-approval-gate-1e8p" },
+      ],
+    },
+    {
+      name: "Ask California Black Stories",
+      note: "Q&A agent over a 150-story archive that answers with source links",
+      url: "https://californiablackstories.com/",
+      links: [
+        { label: "Code", href: "https://github.com/prophen/california-black-stories" },
+        { label: "Walkthrough", href: "https://portfolio.nikema.dev/videos#ask-california-black-stories" },
+        { label: "Write-up", href: "https://dev.to/nikema/ask-the-archive-a-qa-agent-grounded-in-150-stories-of-black-california-history-533c" },
+      ],
+    },
+    {
+      name: "MotionBrief",
+      note: "Turns a campaign brief into a short video on Cloudflare Workers",
+      url: "https://motion-brief.app.space/",
+      links: [
+        { label: "Code", href: "https://github.com/prophen/motion-brief" },
+        { label: "Walkthrough", href: "https://portfolio.nikema.dev/videos#motionbrief" },
+        { label: "Case study", href: "https://work.nikema.dev/case-studies/motionbrief" },
+      ],
+    },
+  ] satisfies MoreProject[] as MoreProject[],
 
   content: [
-    { label: "PayPal Donate SDK tutorial", note: "guide + 3 demo implementations", href: "" },
-    { label: "Talk to the Book technical write-up", note: "debugging malformed model JSON", href: "" },
-    { label: "Video demos", note: "walkthroughs of every project", href: "" },
+    { label: "PayPal Donate SDK tutorial", note: "guide + 3 demo implementations", href: "https://developer.paypal.com/community/blog/how-to-add-donations-to-your-website-with-paypals-donate-sdk/" },
+    { label: "Talk to the Book technical write-up", note: "debugging malformed model JSON", href: "https://dev.to/nikema/talk-to-the-book-dictating-the-book-i-owe-57-people-406p" },
+    { label: "Video demos", note: "walkthroughs of every project", href: "https://portfolio.nikema.dev/videos" },
   ] satisfies (Link & { note: string })[],
 
   community: [
-    "CDF Spinnaker Most Valuable Contributor (2021)",
-    "AWS Community Builder (2021)",
-    "Spinnaker Contributor Experience co-lead",
-    "Women Who Code at Sacramento City College, Vice-President",
-  ],
+    { label: "CDF Spinnaker Most Valuable Contributor (2021)" },
+    { label: "AWS Community Builder (2021)" },
+    { label: "Spinnaker Contributor Experience co-lead" },
+    { label: "Rebuilt the Spinnaker community website in Hugo (2021)", href: "https://spinnaker.io/", links: [{ label: "Source", href: "https://github.com/spinnaker/spinnaker.io" }] },
+    { label: "Women Who Code at Sacramento City College, Vice-President" },
+  ] satisfies Credit[] as Credit[],
 
   // DRAFT
   now: {

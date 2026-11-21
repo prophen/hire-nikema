@@ -4,6 +4,7 @@ import { profile as p } from "../data/profile";
 
 export const GET: APIRoute = ({ site }) => {
   const base = site?.origin ?? "";
+  const links = (ls?: { label: string; href: string }[]) => (ls?.length ? ` (${ls.map((l) => `[${l.label}](${l.href})`).join(", ")})` : "");
   const md = `# ${p.name}
 
 ${p.role}. ${p.summary}
@@ -19,17 +20,19 @@ ${p.fit.yes.map((x) => `- ${x}`).join("\n")}
 ${p.fit.no.map((x) => `- ${x}`).join("\n")}
 
 ## Projects
-${p.projects.map((x) => `- [${x.name}](${x.url}): ${x.tagline}${x.badge ? ` (${x.badge})` : ""}`).join("\n")}
-${p.moreProjects.map((x) => `- ${x.name}: ${x.note}`).join("\n")}
+${p.projects.map((x) => `- [${x.name}](${x.url}): ${x.tagline}${x.badge ? ` (${x.badgeUrl ? `[${x.badge}](${x.badgeUrl})` : x.badge})` : ""}${links(x.links)}`).join("\n")}
+${p.moreProjects.map((x) => `- ${x.url ? `[${x.name}](${x.url})` : x.name}: ${x.note}${links(x.links)}`).join("\n")}
 
 ## How I work
 ${p.howIWork.map((x) => `- **${x.title}.** ${x.body}`).join("\n")}
 
 ## Community
-${p.community.map((x) => `- ${x}`).join("\n")}
+${p.community.map((x) => `- ${x.href ? `[${x.label}](${x.href})` : x.label}${links(x.links)}`).join("\n")}
+
+## Writing and video
+${p.content.map((x) => `- ${x.href ? `[${x.label}](${x.href})` : x.label}: ${x.note}`).join("\n")}
 
 ## Contact
-- Email: ${p.email}
 ${p.bookingUrl ? `- Book a call: ${p.bookingUrl}\n` : ""}${p.socials.map((s) => `- ${s.label}: ${s.href}`).join("\n")}
 - Web: ${base}/
 `;
