@@ -159,12 +159,27 @@ export function drawCat(ctx: Ctx, x: number, y: number, blink: boolean) {
   grid(ctx, blink ? CAT_BLINK : CAT, x, y, pal);
 }
 
+// The dot needs a white row under it, or it merges into the border and the "!" reads as cut off.
+const ALERT = [
+  ".kkkkk.",
+  "kwwwwwk",
+  "kwwkwwk",
+  "kwwkwwk",
+  "kwwkwwk",
+  "kwwkwwk",
+  "kwwwwwk",
+  "kwwkwwk",
+  "kwwwwwk",
+  ".kkwkk.",
+  "..kwk..",
+  "...k...",
+];
+/** Height of the "!" balloon, tail included, so callers can sit it above the player. */
+export const ALERT_HEIGHT = ALERT.length;
+
 /** A small "!" balloon shown when the player faces something to inspect. */
 export function drawAlert(ctx: Ctx, x: number, y: number) {
-  box(ctx, x, y, 7, 9, C.white);
-  rect(ctx, x + 3, y + 2, 1, 4, C.ink);
-  rect(ctx, x + 3, y + 7 - 0, 1, 1, C.ink);
-  rect(ctx, x + 2, y + 9, 2, 1, C.ink);
+  grid(ctx, ALERT, x, y, { k: C.ink, w: C.white });
 }
 
 // ---------- room ----------
