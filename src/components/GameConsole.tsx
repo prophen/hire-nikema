@@ -69,6 +69,8 @@ export function GameConsole({ profile, company, classic: classicInitial = false,
   const g = useRef({
     pos: START as Pt, from: START as Pt, dir: "down" as Dir, t: 1, steps: 0,
     held: null as Dir | null, turnUntil: 0,
+    /** A D-pad tap waiting to become one step, even if the finger already lifted. */
+    tap: null as Dir | null,
     path: [] as Dir[], goal: null as null | { thing?: Thing; tile?: Pt },
     cat: { pos: CAT_START as Pt, from: CAT_START as Pt, t: 1, next: 2500 },
   });
@@ -191,12 +193,14 @@ export function GameConsole({ profile, company, classic: classicInitial = false,
   }
 
   // ---------- input ----------
-  const press = (d: Dir) => {
+  /** `fromPad`: a touch or click on the D-pad, where a tap should always take a step. */
+  const press = (d: Dir, fromPad = false) => {
     const { dialog: dlg, menu: m } = ui.current;
     if (dlg) return;
     if (m !== null) { moveMenu(d); return; }
     const s = g.current;
     s.path = []; s.goal = null;
+    if (fromPad) { s.tap = d; s.held = d; return; }
     if (s.held !== d) {
       s.held = d;
       if (s.dir !== d && s.t >= 1) { s.dir = d; s.turnUntil = performance.now() + 90; }
@@ -231,7 +235,7 @@ export function GameConsole({ profile, company, classic: classicInitial = false,
   };
 
   const padProps = (d: Dir) => ({
-    onPointerDown: (e: RPointerEvent<HTMLButtonElement>) => { e.preventDefault(); e.currentTarget.setPointerCapture(e.pointerId); press(d); },
+    onPointerDown: (e: RPointerEvent<HTMLButtonElement>) => { e.preventDefault(); e.currentTarget.setPointerCapture(e.pointerId); press(d, true); },
     onPointerUp: () => release(d),
     onPointerCancel: () => release(d),
     onLostPointerCapture: () => release(d),
@@ -311,6 +315,10 @@ export function GameConsole({ profile, company, classic: classicInitial = false,
             const spot = standSpots(goal.thing, s.cat.pos).find((sp) => sp.at[0] === s.pos[0] && sp.at[1] === s.pos[1]);
             if (spot) { s.dir = spot.face; inspect(goal.thing); }
           }
+        } else if (s.tap) {
+          const d = s.tap;
+          s.tap = null;
+          tryMove(d);
         } else if (s.held && now >= s.turnUntil) {
           tryMove(s.held);
         }
