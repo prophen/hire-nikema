@@ -127,6 +127,8 @@ h1, h2, h3 { text-wrap: balance; }
   outline-offset: 4px;
   touch-action: manipulation;
   user-select: none; -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
 }
 .gb:focus-visible { outline: 3px solid var(--red); }
 .gb-bezel { background: var(--bezel); border-radius: 8px 8px 28px 8px; padding: 8px var(--pad) var(--pad); }
