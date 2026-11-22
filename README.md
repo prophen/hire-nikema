@@ -23,6 +23,18 @@ All copy lives in `src/data/profile.ts`. Lines marked `DRAFT` still need a real-
 - **Role-fit checker keywords:** these live in `src/data/skills.ts`.
 - **`/nikema.md`:** the page content in agent-readable person.md format, generated from `profile.ts`.
 
+## Analytics
+
+PostHog, in cookieless mode, so the site needs no consent banner. Set `PUBLIC_POSTHOG_PROJECT_TOKEN` and `PUBLIC_POSTHOG_HOST` in `.env` (gitignored) for local dev, and as plain build variables on the host. They don't need to be secrets: they're built into the page, and the token can only send events. Without them, analytics stays off, which is what Storybook and the tests use. Cookieless events also need **Settings → Project → Web analytics → Enable cookieless tracking** turned on in PostHog.
+
+Custom events, sent by `src/lib/analytics.ts`:
+
+- `room_panel_opened` (`panel`): an object in the room was opened.
+- `fit_check_run` (`score`, `matched`, `gaps`): sends the result only, never the pasted text.
+- `intro_video_played` (`at`) and `intro_video_finished`.
+- `link_clicked` (`kind`: `resume`, `email`, `social`, `nikema_md`, `external`).
+- `company_page_viewed` (`company`). Every event sent from a `/for/<slug>` page also carries a `company` property.
+
 ## Agent tooling
 
 - **Storybook MCP** (local): run `npm run storybook`, then add it to your agent with `claude mcp add --transport http storybook http://localhost:6006/mcp`.

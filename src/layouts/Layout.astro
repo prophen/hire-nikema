@@ -48,5 +48,9 @@ const imageAlt = `${profile.name}, ${profile.role}: a pixel-art room on a handhe
   </head>
   <body>
     <slot />
+    <script>
+      import { initAnalytics } from "../lib/analytics";
+      initAnalytics();
+    </script>
   </body>
 </html>
