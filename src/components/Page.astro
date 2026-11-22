@@ -1,6 +1,6 @@
 ---
 // Composes the full page: the playable room up top, then the same content as plain sections.
-import { profile } from "../data/profile";
+import { profile as baseProfile } from "../data/profile";
 import type { Company } from "../data/companies";
 import { Experience } from "./Experience";
 import { Hero } from "./Hero";
@@ -12,9 +12,12 @@ import { ContentCommunity } from "./ContentCommunity";
 import { Testimonials } from "./Testimonials";
 import { NowAndLogistics } from "./NowAndLogistics";
 import { RoleFitChecker } from "./RoleFitChecker";
+import { AskNikema } from "./AskNikema";
 import { Footer } from "./Footer";
 interface Props { company?: Company }
 const { company } = Astro.props;
+const profile = { ...baseProfile, status: company?.status ?? baseProfile.status, headline: company?.headline ?? baseProfile.headline,
+  summary: company?.summary ?? baseProfile.summary, video: company?.video ?? baseProfile.video };
 const contactUrl = profile.bookingUrl || `mailto:${profile.email}`;
 const contactLabel = profile.bookingUrl ? "Book a 15-min chat" : "Say hi";
 ---
@@ -29,7 +32,11 @@ const contactLabel = profile.bookingUrl ? "Book a 15-min chat" : "Say hi";
     <div class="intro-tape"><VideoIntro client:visible {...profile.video} bookingUrl={profile.bookingUrl} /></div>
   </section>
   <Experience items={profile.experience} />
-  <RoleFitChecker client:visible />
+  {company?.agent && <section id="ask-nikema" aria-labelledby="ask-title">
+    <h2 class="section-title" id="ask-title">A conversation about my work</h2>
+    <AskNikema client:visible />
+  </section>}
+  <RoleFitChecker client:visible initialText={company?.jobDescription} />
   <FitList {...profile.fit} />
   <Projects projects={profile.projects} more={profile.moreProjects} />
   <ContentCommunity content={profile.content} community={profile.community} />

@@ -322,3 +322,55 @@ a.badge:hover { color: var(--red-dark); border-color: var(--red-dark); }
 .egg { background: none; border: 0; padding: 0; font: 11px var(--px); color: var(--ink-2); cursor: pointer; }
 .egg:hover { color: var(--red); }
 .egg-out { font: 10px/1.8 var(--px); color: var(--green); margin-top: 10px; }
+
+/* Twilio's brand highlight and navy; dark red keeps small text readable. */
+body[data-theme="twilio"] {
+  --paper: #f4f6ff; --paper-dot: #e1e7f5; --box: #fff;
+  --ink: #121c2d; --ink-2: #4b5671; --line-2: #0260e0;
+  --red: #b51c32; --red-dark: #8d1227; --blue: #0054c7;
+  --shell: #f22f46; --shell-dark: #b51c32; --bezel: #121c2d; --berry: #121c2d;
+}
+body[data-theme="twilio"] .pxwin:has(.checker) { --line-2: var(--red); }
+body[data-theme="twilio"] .hero .note { border-left: 5px solid #f22f46; padding-left: 16px; }
+.agent-eyebrow { font: 12px/1.6 var(--px); color: var(--red); }
+.agent-intro { margin-bottom: 20px; }
+.agent-modes { display: flex; gap: 4px; padding: 4px; margin: 0 0 24px; border: 1px solid var(--paper-dot); border-radius: 6px; }
+.agent-modes button { flex: 1; min-height: 44px; border: 0; border-radius: 3px; background: transparent; color: var(--ink); font: inherit; cursor: pointer; }
+.agent-modes button[aria-pressed="true"] { background: var(--ink); color: var(--box); }
+.agent-modes button:disabled { opacity: .5; cursor: default; }
+.agent-suggestions { display: grid; gap: 4px; margin: 0 0 24px; padding: 0; list-style: none; }
+.agent-suggestions li { display: flex; align-items: baseline; gap: 10px; }
+.agent-suggestions li > span { color: var(--red); }
+.agent-suggestions button { padding: 10px 0; border: 0; background: transparent; color: var(--ink); text-align: left; font: inherit; line-height: 1.6; cursor: pointer; }
+.agent-suggestions button:hover:not(:disabled) { text-decoration: underline; text-underline-offset: 4px; }
+.agent-suggestions button:disabled { opacity: .6; cursor: default; }
+.agent-disclosure { margin: 24px 0 8px; font-size: 13px; line-height: 1.6; }
+.agent-details { font-size: 14px; }
+.agent-details summary { cursor: pointer; padding: 8px 0; }
+.ask-nikema button:focus-visible, .agent-details summary:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+.ask-nikema form { display: grid; gap: 12px; }
+.ask-nikema form .btn { justify-self: start; }
+.ask-nikema textarea { width: 100%; resize: vertical; padding: 12px; border: 2px solid var(--ink); border-radius: 4px; font: inherit; color: var(--ink); background: var(--box); }
+.agent-messages { max-height: 360px; overflow-y: auto; overflow-wrap: anywhere; }
+.agent-message { padding: 16px; line-height: 1.75; background: var(--paper); border-left: 3px solid var(--blue); }
+.agent-message.user { border-color: var(--red); }
+.agent-message strong, .agent-message span { display: block; }
+.agent-message strong { margin-bottom: 8px; font-size: 13px; }
+.agent-message span { white-space: pre-wrap; }
+.agent-voice p { line-height: 1.75; }
+.ask-nikema [hidden] { display: none; }
+
+@media (max-width: 600px) {
+  .ask-nikema { padding: 28px 16px; }
+  .ask-nikema .agent-intro { margin-bottom: 28px; }
+  .ask-nikema .agent-modes { margin-bottom: 32px; }
+  .agent-chat { display: grid; gap: 28px; }
+  .agent-chat .agent-suggestions { margin: 0; gap: 8px; }
+  .agent-chat .agent-messages { max-height: none; overflow: visible; display: grid; gap: 20px; }
+  .agent-chat .agent-messages:empty { display: none; }
+  .agent-chat .agent-message { margin: 0; padding: 20px 12px; }
+  .ask-nikema form { gap: 18px; }
+  .ask-nikema textarea { min-height: 160px; padding: 16px; line-height: 1.7; }
+  .ask-nikema form .btn { width: 100%; justify-content: center; min-height: 48px; }
+  .ask-nikema .agent-disclosure { margin-top: 32px; }
+}

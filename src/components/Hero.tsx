@@ -4,7 +4,7 @@ import { GameConsole } from "./GameConsole";
 type Props = {
   profile: Profile;
   /** Optional per-company line shown on /for/<company> pages. */
-  companyNote?: { name: string; note: string; role?: string };
+  companyNote?: { name: string; note: string; role?: string; agent?: boolean; jobDescription?: string };
   /** Start the room in the four-shade green palette. */
   classic?: boolean;
   /** Hold the room still, for visual tests. */
@@ -34,7 +34,7 @@ export function Hero({ profile, companyNote, classic, frozen }: Props) {
         <p className="summary">{profile.summary}</p>
         <p className="proof">{profile.proof}</p>
         <p className="quest">
-          Explore my room to see my work. The TV has my intro, the PC has my projects, and the cat checks job posts.
+          Explore my room to see my work. The TV has my intro, the PC has my projects, and the cat checks job posts. {companyNote?.agent && "The red phone opens my AI guide."}
         </p>
         <div className="actions">
           <a className="btn" href={contact}>{profile.bookingUrl ? "Book a 15-min chat" : "Say hi"}</a>

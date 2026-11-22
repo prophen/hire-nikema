@@ -39,3 +39,7 @@ Custom events, sent by `src/lib/analytics.ts`:
 
 - **Storybook MCP** (local): run `npm run storybook`, then add it to your agent with `claude mcp add --transport http storybook http://localhost:6006/mcp`.
 - **Chromatic MCP**: the project is already set up and `chromatic.config.json` has its ID. Publish with `CHROMATIC_PROJECT_TOKEN=… npm run chromatic`. Keep the token out of the repo. Connect the MCP server with `claude mcp add --transport http --scope user chromatic https://mcp.chromatic.com/mcp`, then authorize it through `/mcp`.
+
+## Twilio page and AI guide
+
+`/for/twilio` has a dedicated theme, intro-video override, and red phone in the game. See [setup and recording notes](docs/twilio-page.md) for the Cloudflare Workers backend, required secrets, limits, and live verification steps. The backend is deployed at `https://hire-nikema-agent.nikema.workers.dev`; provider secrets are configured and chat/browser calls are enabled. Without a configured service, the guide displays a coming-soon state.

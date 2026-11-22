@@ -23,3 +23,13 @@ export const OpensMenu: Story = {
     await expect(c.getByRole("menuitem", { name: /PROJECTS/ })).toBeInTheDocument();
   },
 };
+
+export const TwilioPhone: Story = {
+  args: { company: { name: "Twilio", note: "Let's build a conversation.", agent: true } },
+  play: async ({ canvasElement }) => {
+    const c = within(canvasElement);
+    await userEvent.click(c.getByRole("button", { name: /B: back/ }));
+    await userEvent.click(c.getByRole("button", { name: /Start: shortcut menu/ }));
+    await expect(c.getByRole("menuitem", { name: /ASK NIKEMA/ })).toBeInTheDocument();
+  },
+};

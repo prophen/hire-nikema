@@ -379,7 +379,7 @@ function drawMat(ctx: Ctx) {
 }
 
 /** Draws everything that doesn't move, once, into a background canvas. */
-export function drawRoom(ctx: Ctx) {
+export function drawRoom(ctx: Ctx, phone = false) {
   drawWall(ctx);
   drawFloor(ctx);
   drawRug(ctx);
@@ -393,6 +393,15 @@ export function drawRoom(ctx: Ctx) {
   drawPlant(ctx, 9 * TILE, 2 * TILE);
   drawPlant(ctx, 0, 8 * TILE);
   drawTable(ctx);
+  if (phone) {
+    rect(ctx, 16, 64, 16, 16, "#121c2d");
+    rect(ctx, 18, 67, 12, 10, "#f22f46");
+    rect(ctx, 17, 65, 14, 3, "#f22f46");
+    rect(ctx, 17, 66, 3, 4, "#f22f46");
+    rect(ctx, 28, 66, 3, 4, "#f22f46");
+    for (let y = 70; y <= 74; y += 2)
+      for (let x = 22; x <= 26; x += 2) rect(ctx, x, y, 1, 1, "#fff");
+  }
 }
 
 /**

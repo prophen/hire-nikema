@@ -1,5 +1,6 @@
 import type { Profile } from "../data/profile";
 import type { PanelId } from "../game/room";
+import { AskNikema } from "./AskNikema";
 import { Contact } from "./Contact";
 import { ContentCommunity } from "./ContentCommunity";
 import { FitList } from "./FitList";
@@ -10,8 +11,9 @@ import { RoleFitChecker } from "./RoleFitChecker";
 import { VideoIntro } from "./VideoIntro";
 
 /** What each thing in the room opens. */
-export function PanelContent({ id, profile: p }: { id: PanelId; profile: Profile }) {
+export function PanelContent({ id, profile: p, jobDescription }: { id: PanelId; profile: Profile; jobDescription?: string }) {
   switch (id) {
+    case "ask": return <AskNikema />;
     case "intro":
       return <VideoIntro {...p.video} bookingUrl={p.bookingUrl} />;
     case "projects":
@@ -25,7 +27,7 @@ export function PanelContent({ id, profile: p }: { id: PanelId; profile: Profile
     case "now":
       return <Now now={p.now} />;
     case "fitcheck":
-      return <RoleFitChecker bare />;
+      return <RoleFitChecker bare initialText={jobDescription} />;
     case "contact":
       return <Contact profile={p} />;
   }
