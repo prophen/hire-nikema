@@ -30,6 +30,12 @@ export const profile = {
   headline: ["Developer advocate.", "Demo builder."],
   summary:
     "I build AI-assisted apps in public, then show developers how they work: the implementation, the debugging, and the trade-offs.",
+  proof: "Former PayPal Developer Advocate and engineer on developer.paypal.com. Winner, Best Use of ElevenLabs, Hacktoberfest 2026.",
+  experience: [
+    { employer: "PayPal", role: "Software Engineer", dates: "Sep 2023 – Apr 2025", summary: "Built the Developer Program experience on developer.paypal.com and maintained onboarding and documentation apps." },
+    { employer: "PayPal", role: "Developer Advocate", dates: "Apr 2022 – Sep 2023", summary: "Created API onboarding materials, integration guides, and tutorials; brought developer feedback to product and engineering." },
+    { employer: "Armory", role: "Community Marketing Manager", dates: "Aug 2020 – Oct 2021", summary: "Produced developer content and educational series for DevOps and continuous-delivery audiences." },
+  ],
   status: "open to DevRel & developer advocate roles",
   location: "Sacramento, CA",
 
@@ -37,9 +43,8 @@ export const profile = {
   avatar: { skin: "#a8683c", hair: "#2a1a14", shirt: "#d0405a", pants: "#3a4a8a" },
 
   bookingUrl: "https://cal.boardy.ai/2239bee288d5", // falls back to email when empty
-  // Left empty so the address isn't published (the repo and Storybook are public).
-  // Only used as a mailto: fallback if bookingUrl is removed.
-  email: "",
+  // Public recruiting contact, also used when no booking URL is configured.
+  email: "nikema+jobs@mail.grokbot.com",
   resumeUrl: "/Nikema_Prophet_Resume.pdf", // lives in /public
 
   socials: [
@@ -107,10 +112,11 @@ export const profile = {
   projects: [
     {
       slug: "impossible-hires",
-      name: "impossible hires",
+      name: "Impossible Hires",
       url: "https://impossiblehires.tech",
       tagline: "Work beyond the job title. An opt-in talent network for technical creatives.",
       badge: "in development",
+      links: [{ label: "Try the fictional demo", href: "https://impossiblehires.tech/demo" }],
       stack: ["React", "TypeScript", "Cloudflare Workers", "Neon Postgres", "Playwright"],
       hard: "Explaining consent-based introductions before there were any real users to show.",
       learned:
@@ -142,12 +148,14 @@ export const profile = {
       hard: "Designing one profile format readable by both people and AI agents.",
       learned: "How to treat AI agents as users and design features with them in mind.",
     },
-  ] satisfies Project[],
 
-  moreProjects: [
     {
+      slug: "fact-card-workflow",
       name: "Fact Card Workflow",
-      note: "AI fact cards checked against their sources, with human review",
+      stack: ["AI SDK", "Sanity", "Exa"],
+      hard: "Keeping AI claim checking separate from human approval to publish.",
+      learned: "Added rejection, revision, and review history before publication to Sanity.",
+      tagline: "AI fact cards checked against their sources, with human review",
       url: "https://fact-card-workflow.nikema.dev/",
       links: [
         { label: "Code", href: "https://github.com/prophen/fact-card-workflow" },
@@ -156,8 +164,12 @@ export const profile = {
       ],
     },
     {
+      slug: "ask-california-black-stories",
       name: "Ask California Black Stories",
-      note: "Q&A agent over a 150-story archive that answers with source links",
+      stack: ["Next.js", "AI SDK", "Sanity Context MCP"],
+      hard: "Preventing general-knowledge fallback and fabricated citation URLs.",
+      learned: "Tightened answer boundaries and supplied real source URLs, documenting the verification limits.",
+      tagline: "Q&A agent over a 150-story archive that answers with source links",
       url: "https://californiablackstories.com/",
       links: [
         { label: "Code", href: "https://github.com/prophen/california-black-stories" },
@@ -166,8 +178,12 @@ export const profile = {
       ],
     },
     {
+      slug: "motionbrief",
       name: "MotionBrief",
-      note: "Turns a campaign brief into a short video on Cloudflare Workers",
+      stack: ["Cloudflare Workers", "OpenAI", "fal", "ElevenLabs", "Shotstack"],
+      hard: "Getting consistent video output and preserving editable work across reloads.",
+      learned: "Used deterministic camera moves and documented resumable jobs, durable storage, and render preflight checks.",
+      tagline: "Turns a campaign brief into a short video on Cloudflare Workers",
       url: "https://motion-brief.app.space/",
       links: [
         { label: "Code", href: "https://github.com/prophen/motion-brief" },
@@ -175,7 +191,9 @@ export const profile = {
         { label: "Case study", href: "https://work.nikema.dev/case-studies/motionbrief" },
       ],
     },
-  ] satisfies MoreProject[] as MoreProject[],
+  ] satisfies Project[],
+
+  moreProjects: [] as MoreProject[],
 
   content: [
     { label: "PayPal Donate SDK tutorial", note: "guide + 3 demo implementations", href: "https://developer.paypal.com/community/blog/how-to-add-donations-to-your-website-with-paypals-donate-sdk/" },
@@ -186,9 +204,9 @@ export const profile = {
   community: [
     { label: "CDF Spinnaker Most Valuable Contributor (2021)" },
     { label: "AWS Community Builder (2021)" },
-    { label: "Spinnaker Contributor Experience co-lead" },
+    { label: "Spinnaker Contributor Experience co-lead (Aug 2020 – Dec 2021)" },
     { label: "Rebuilt the Spinnaker community website in Hugo (2021)", href: "https://spinnaker.io/", links: [{ label: "Source", href: "https://github.com/spinnaker/spinnaker.io" }] },
-    { label: "Women Who Code at Sacramento City College, Vice-President" },
+    { label: "Women Who Code at Sacramento City College, Vice-President (Sep – Oct 2026)" },
   ] satisfies Credit[] as Credit[],
 
   // DRAFT

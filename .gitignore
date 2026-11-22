@@ -5,3 +5,12 @@ storybook-static/
 build-storybook.log
 .DS_Store
 .env
+
+.env.agent
+.agent-state/
+
+worker/generated/
+worker/.dev.vars
+worker/.wrangler/
+.cloudflare/
+worker/.cloudflare/

@@ -4,7 +4,7 @@ import { VideoIntro } from "./VideoIntro";
 
 const meta = {
   component: VideoIntro,
-  args: { ...profile.video },
+  args: { ...profile.video, bookingUrl: profile.bookingUrl },
   decorators: [(Story) => <div style={{ maxWidth: 520 }}><Story /></div>],
 } satisfies Meta<typeof VideoIntro>;
 export default meta;

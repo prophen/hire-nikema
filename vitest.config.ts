@@ -10,6 +10,7 @@ const dirname = import.meta.dirname;
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
+  define: { "import.meta.env.PUBLIC_AGENT_URL": JSON.stringify("") },
   test: {
     projects: [
       {

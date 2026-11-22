@@ -15,6 +15,7 @@ export function Contact({ profile }: { profile: Profile }) {
       <nav className="socials" aria-label="Links">
         {profile.socials.map((s) => <a key={s.href} href={s.href} rel="me noopener">{s.label}</a>)}
         <a href={profile.resumeUrl}>Résumé (PDF)</a>
+        {profile.email && <a href={`mailto:${profile.email}`}>Email me</a>}
         <a href="/nikema.md">nikema.md</a>
       </nav>
       <h3 className="card-title">Logistics</h3>

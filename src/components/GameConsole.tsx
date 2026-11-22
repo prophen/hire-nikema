@@ -13,7 +13,7 @@ import { track } from "../lib/analytics";
 
 type Props = {
   profile: Profile;
-  company?: { name: string; note: string };
+  company?: { name: string; note: string; agent?: boolean; jobDescription?: string };
   /** Start in the four-shade green palette. */
   classic?: boolean;
   /** Hold every animation still (no wandering cat, no typing, no blinking), for visual tests. */
@@ -40,6 +40,9 @@ function reducedMotion() {
  * Tapping or clicking a spot in the room walks there; tapping a thing walks over and inspects it.
  */
 export function GameConsole({ profile, company, classic: classicInitial = false, frozen = false }: Props) {
+  const roomMenu = useMemo(() => company?.agent
+    ? [...MENU, { panel: "ask" as const, label: "ASK NIKEMA", title: "Ask Nikema's AI guide" }]
+    : MENU, [company?.agent]);
   const things = useMemo(() => buildThings(profile, company), [profile, company]);
   const solid = useMemo(() => solidGrid(things), [things]);
   const name = profile.name.split(" ")[0].toUpperCase();
@@ -147,7 +150,7 @@ export function GameConsole({ profile, company, classic: classicInitial = false,
     }
     if (m !== null) {
       setMenu(null);
-      const item = MENU[m];
+      const item = roomMenu[m];
       if (!item) return;
       const thing = things.find((t) => t.panel === item.panel);
       if (!thing || reducedMotion()) { openPanel(item.panel); return; }
@@ -159,7 +162,7 @@ export function GameConsole({ profile, company, classic: classicInitial = false,
     const t = frontThing();
     if (t) inspect(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [typed, setTyped, things, frontThing, inspect, openPanel]);
+  }, [typed, setTyped, things, frontThing, inspect, openPanel, roomMenu]);
 
   const pressB = useCallback(() => {
     g.current.held = null;
@@ -174,8 +177,8 @@ export function GameConsole({ profile, company, classic: classicInitial = false,
   }, []);
 
   const moveMenu = (d: Dir) => {
-    if (d === "up") setMenu((m) => (m === null ? m : (m + MENU.length) % (MENU.length + 1)));
-    if (d === "down") setMenu((m) => (m === null ? m : (m + 1) % (MENU.length + 1)));
+    if (d === "up") setMenu((m) => (m === null ? m : (m + roomMenu.length) % (roomMenu.length + 1)));
+    if (d === "down") setMenu((m) => (m === null ? m : (m + 1) % (roomMenu.length + 1)));
   };
 
   /** Walk to the nearest spot from which `thing` can be inspected, then inspect it. */
@@ -266,7 +269,7 @@ export function GameConsole({ profile, company, classic: classicInitial = false,
     if (!ctx) return;
     const bg = document.createElement("canvas");
     bg.width = WIDTH; bg.height = HEIGHT;
-    drawRoom(bg.getContext("2d")!);
+    drawRoom(bg.getContext("2d")!, company?.agent);
     const reduce = reducedMotion();
 
     const blocked = (x: number, y: number, self: "player" | "cat") => {
@@ -383,7 +386,7 @@ export function GameConsole({ profile, company, classic: classicInitial = false,
     raf = requestAnimationFrame(frame);
     return () => { cancelAnimationFrame(raf); io.disconnect(); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [things, solid, profile, frozen]);
+  }, [things, solid, profile, frozen, company?.agent]);
 
   // ---------- panel ----------
   useEffect(() => {
@@ -399,8 +402,8 @@ export function GameConsole({ profile, company, classic: classicInitial = false,
     consoleRef.current?.focus();
   };
 
-  const panelMeta = MENU.find((m) => m.panel === panel);
-  const total = MENU.length;
+  const panelMeta = roomMenu.find((m) => m.panel === panel);
+  const total = roomMenu.length;
   const sayAll = dialog ? dialog.pages[dialog.i] : "";
 
   return (
@@ -440,7 +443,7 @@ export function GameConsole({ profile, company, classic: classicInitial = false,
             {menu !== null && (
               <div className="gb-menu" role="menu" aria-label="Shortcut menu">
                 <div className="gb-menu-head" aria-hidden="true">SEEN {seen.length}/{total}</div>
-                {[...MENU, { panel: null, label: "CLOSE", title: "Close" }].map((item, i) => (
+                {[...roomMenu, { panel: null, label: "CLOSE", title: "Close" }].map((item, i) => (
                   <button
                     key={item.label}
                     type="button"
@@ -448,7 +451,7 @@ export function GameConsole({ profile, company, classic: classicInitial = false,
                     tabIndex={-1}
                     className={i === menu ? "on" : undefined}
                     onMouseEnter={() => setMenu(i)}
-                    onClick={() => { if (i === MENU.length) setMenu(null); else { setMenu(i); ui.current.menu = i; pressA(); } }}
+                    onClick={() => { if (i === roomMenu.length) setMenu(null); else { setMenu(i); ui.current.menu = i; pressA(); } }}
                   >
                     {item.label}
                     {item.panel && seen.includes(item.panel) && <span className="sr-only"> (seen)</span>}
@@ -456,7 +459,7 @@ export function GameConsole({ profile, company, classic: classicInitial = false,
                 ))}
               </div>
             )}
-            <p className="sr-only" aria-live="polite">{menu !== null ? `Menu: ${[...MENU.map((m) => m.label), "CLOSE"][menu]}` : sayAll}</p>
+            <p className="sr-only" aria-live="polite">{menu !== null ? `Menu: ${[...roomMenu.map((m) => m.label), "CLOSE"][menu]}` : sayAll}</p>
           </div>
         </div>
 
@@ -504,7 +507,7 @@ export function GameConsole({ profile, company, classic: classicInitial = false,
                 close <span aria-hidden="true">✕</span>
               </button>
             </div>
-            <PanelContent id={panel} profile={profile} />
+            <PanelContent id={panel} profile={profile} jobDescription={company?.jobDescription} />
           </div>
         )}
       </dialog>

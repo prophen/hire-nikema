@@ -12,7 +12,7 @@ export type Dir = "up" | "down" | "left" | "right";
 export const STEP: Record<Dir, [number, number]> = { up: [0, -1], down: [0, 1], left: [-1, 0], right: [1, 0] };
 export type Pt = [number, number];
 
-export type PanelId = "intro" | "projects" | "content" | "fit" | "now" | "how" | "fitcheck" | "contact";
+export type PanelId = "intro" | "projects" | "content" | "fit" | "now" | "how" | "fitcheck" | "contact" | "ask";
 
 export type Thing = {
   id: string;
@@ -44,9 +44,14 @@ const range = (x0: number, x1: number, y0: number, y1: number): Pt[] => {
   return out;
 };
 
-export function buildThings(p: Profile, company?: { name: string }): Thing[] {
+export function buildThings(p: Profile, company?: { name: string; agent?: boolean }): Thing[] {
   const name = p.name.split(" ")[0].toUpperCase();
+  const phone: Thing[] = company?.agent ? [{
+    id: "phone", tiles: [[1, 4]], solid: true, panel: "ask",
+    lines: ["A red phone. Ask Nikema's AI guide about her work.", "Press A to chat or start a voice call."],
+  }] : [];
   return [
+    ...phone,
     {
       id: "tv", tiles: [[7, 2]], clickTiles: [[7, 1]], solid: true, panel: "intro",
       lines: p.video.src

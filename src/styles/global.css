@@ -94,20 +94,23 @@ h1, h2, h3 { text-wrap: balance; }
 .hero-rest { grid-area: rest; }
 .hero-game { grid-area: game; min-width: 0; }
 @media (max-width: 899px) {
-  .hero { grid-template-columns: minmax(0, 1fr); grid-template-areas: "top" "game" "rest"; row-gap: 24px; }
+  .hero { grid-template-columns: minmax(0, 1fr); grid-template-areas: "top" "rest" "game"; row-gap: 24px; }
   .hero-game { display: grid; }
   .hero .desktop-only { display: none; }
 }
 @media (min-width: 900px) { .hero .mobile-only { display: none; } }
 .gb-panel-head h2:focus { outline: none; }
-.hero-kicker { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 18px; font: 10px/1.6 var(--px); background: var(--box); border: 2px solid var(--ink); padding: 6px 10px; border-radius: 3px; }
+.hero-kicker { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 18px; font: 12px/1.6 var(--px); background: var(--box); border: 2px solid var(--ink); padding: 6px 10px; border-radius: 3px; }
 .status-dot { width: 8px; height: 8px; background: #3fae4f; box-shadow: 0 0 0 2px var(--ink); animation: blink 1.2s steps(2) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 .hero h1 { font: clamp(22px, 4vw, 34px)/1.35 var(--px); margin: 0 0 18px; color: var(--ink); text-shadow: 3px 3px 0 var(--paper-dot); }
 .hero h1 .l2 { display: block; font: 600 clamp(20px, 2.6vw, 26px)/1.3 var(--body); color: var(--red); margin-top: 12px; text-shadow: none; }
 .hero .note { background: var(--gold-bg); border: 2px solid var(--ink); border-radius: 4px; padding: 10px 14px; margin: 0 0 16px; }
 .hero .summary { margin: 0 0 12px; max-width: 46ch; font-size: 20px; }
-.hero .skip { margin: 0; }
+.hero .proof { margin: 0 0 18px; max-width: 48ch; font-size: 18px; }
+.experience-list { display: grid; gap: 16px; }
+.experience-list h3 { margin: 0 0 8px; }
+.experience-list p { margin: 6px 0 0; }
 .hero .quest { margin: 0 0 22px; max-width: 46ch; color: var(--ink-2); }
 .actions { display: flex; flex-wrap: wrap; gap: 14px; }
 .socials { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 22px; }
@@ -319,3 +322,67 @@ a.badge:hover { color: var(--red-dark); border-color: var(--red-dark); }
 .egg { background: none; border: 0; padding: 0; font: 11px var(--px); color: var(--ink-2); cursor: pointer; }
 .egg:hover { color: var(--red); }
 .egg-out { font: 10px/1.8 var(--px); color: var(--green); margin-top: 10px; }
+
+/* Twilio's brand highlight and navy; dark red keeps small text readable. */
+body[data-theme="twilio"] {
+  --paper: #f4f6ff; --paper-dot: #e1e7f5; --box: #fff;
+  --ink: #121c2d; --ink-2: #4b5671; --line-2: #0260e0;
+  --red: #b51c32; --red-dark: #8d1227; --blue: #0054c7;
+  --shell: #f22f46; --shell-dark: #b51c32; --bezel: #121c2d; --berry: #121c2d;
+}
+body[data-theme="twilio"] .pxwin:has(.checker) { --line-2: var(--red); }
+body[data-theme="twilio"] .hero .note { border-left: 5px solid #f22f46; padding-left: 16px; }
+.agent-eyebrow { font: 12px/1.6 var(--px); color: var(--red); }
+.agent-intro { margin-bottom: 20px; }
+.agent-modes { display: flex; gap: 4px; padding: 4px; margin: 0 0 24px; border: 1px solid var(--paper-dot); border-radius: 6px; }
+.agent-modes button { flex: 1; min-height: 44px; border: 0; border-radius: 3px; background: transparent; color: var(--ink); font: inherit; cursor: pointer; }
+.agent-modes button[aria-pressed="true"] { background: var(--ink); color: var(--box); }
+.agent-modes button:disabled { opacity: .5; cursor: default; }
+.agent-suggestions { display: grid; gap: 4px; margin: 0 0 24px; padding: 0; list-style: none; }
+.agent-suggestions li { display: flex; align-items: baseline; gap: 10px; }
+.agent-suggestions li > span { color: var(--red); }
+.agent-suggestions button { padding: 10px 0; border: 0; background: transparent; color: var(--ink); text-align: left; font: inherit; line-height: 1.6; cursor: pointer; }
+.agent-suggestions button:hover:not(:disabled) { text-decoration: underline; text-underline-offset: 4px; }
+.agent-suggestions button:disabled { opacity: .6; cursor: default; }
+.agent-disclosure { margin: 24px 0 8px; font-size: 13px; line-height: 1.6; }
+.agent-details { font-size: 14px; }
+.agent-details summary { cursor: pointer; padding: 8px 0; }
+.ask-nikema button:focus-visible, .agent-details summary:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+.ask-nikema form { display: grid; gap: 12px; }
+.ask-nikema form .btn { justify-self: start; }
+.ask-nikema textarea { width: 100%; resize: vertical; padding: 12px; border: 2px solid var(--ink); border-radius: 4px; font: inherit; color: var(--ink); background: var(--box); }
+.agent-messages { max-height: 360px; overflow-y: auto; overflow-wrap: anywhere; }
+.agent-message { padding: 16px; line-height: 1.75; background: var(--paper); border-left: 3px solid var(--blue); }
+.agent-message.user { border-color: var(--red); }
+.agent-message strong, .agent-message span { display: block; }
+.agent-message strong { margin-bottom: 8px; font-size: 13px; }
+.agent-message span { white-space: pre-wrap; }
+.agent-voice p { line-height: 1.75; }
+.ask-nikema [hidden] { display: none; }
+
+@media (max-width: 600px) {
+  .ask-nikema { padding: 28px 16px; }
+  .ask-nikema .agent-intro { margin-bottom: 28px; }
+  .ask-nikema .agent-modes { margin-bottom: 32px; }
+  .agent-chat { display: grid; gap: 28px; }
+  .agent-chat .agent-suggestions { margin: 0; gap: 8px; }
+  .agent-chat .agent-messages { max-height: none; overflow: visible; display: grid; gap: 20px; }
+  .agent-chat .agent-messages:empty { display: none; }
+  .agent-chat .agent-message { margin: 0; padding: 20px 12px; }
+  .ask-nikema form { gap: 18px; }
+  .ask-nikema textarea { min-height: 160px; padding: 16px; line-height: 1.7; }
+  .ask-nikema form .btn { width: 100%; justify-content: center; min-height: 48px; }
+  .ask-nikema .agent-disclosure { margin-top: 32px; }
+}
+
+/* Keep the Twilio guide's controls in the red brand palette. */
+body[data-theme="twilio"] .ask-nikema .agent-modes { border-color: var(--red); }
+body[data-theme="twilio"] .ask-nikema .agent-modes button,
+body[data-theme="twilio"] .ask-nikema .agent-suggestions button { color: var(--red); }
+body[data-theme="twilio"] .ask-nikema .agent-modes button[aria-pressed="true"],
+body[data-theme="twilio"] .ask-nikema .btn { background: var(--red); color: #fff; }
+body[data-theme="twilio"] .ask-nikema .btn { box-shadow: inset 0 -4px 0 var(--red-dark), 3px 3px 0 var(--ink); }
+body[data-theme="twilio"] .ask-nikema .btn:hover:not(:disabled),
+body[data-theme="twilio"] .ask-nikema .agent-modes button[aria-pressed="true"]:hover:not(:disabled) { background: var(--red-dark); }
+body[data-theme="twilio"] .ask-nikema .btn:disabled { opacity: .55; }
+body[data-theme="twilio"] .ask-nikema button:focus-visible { outline-color: var(--red); }

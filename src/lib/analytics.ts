@@ -1,4 +1,7 @@
-import posthog from "posthog-js";
+import type { PostHog } from "posthog-js";
+
+let posthog: PostHog | undefined;
+let scheduled = false;
 
 /**
  * PostHog analytics. `initAnalytics` runs once from the layout; components call `track`.
@@ -7,21 +10,38 @@ import posthog from "posthog-js";
 export function initAnalytics() {
   const token = import.meta.env.PUBLIC_POSTHOG_PROJECT_TOKEN;
   const host = import.meta.env.PUBLIC_POSTHOG_HOST;
-  if (!token || !host || posthog.__loaded) return;
+  if (!token || !host || scheduled) return;
+  scheduled = true;
 
-  posthog.init(token, {
-    api_host: host,
-    defaults: "2026-08-30",
-    // No cookies or local storage, so no consent banner is needed.
-    cookieless_mode: "always",
-  });
-
-  // Per-company pages: tag every event from /for/<slug> with the company.
-  const company = location.pathname.match(/^\/for\/([^/]+)/)?.[1];
-  if (company) {
-    posthog.register({ company });
-    track("company_page_viewed", { company });
-  }
+  const load = async () => {
+    try {
+      const { default: client } = await import("posthog-js");
+      posthog = client;
+      client.init(token, {
+        api_host: host,
+        defaults: "2026-08-30",
+        cookieless_mode: "always",
+      });
+      const company = location.pathname.match(/^\/for\/([^/]+)/)?.[1];
+      if (company) {
+        client.register({ company });
+        track("company_page_viewed", { company });
+      }
+    } catch {
+      // Analytics must never prevent the page from working.
+    }
+  };
+  const defer = () => {
+    window.setTimeout(() => {
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(() => { void load(); }, { timeout: 3000 });
+      } else {
+        void load();
+      }
+    }, 2000);
+  };
+  if (document.readyState === "complete") defer();
+  else window.addEventListener("load", defer, { once: true });
 
   // One listener covers every résumé, email, social, and project link on the page.
   document.addEventListener("click", (e) => {
@@ -42,5 +62,5 @@ function linkKind(a: HTMLAnchorElement): string | null {
 }
 
 export function track(event: string, properties?: Record<string, unknown>) {
-  if (posthog.__loaded) posthog.capture(event, properties);
+  if (posthog?.__loaded) posthog.capture(event, properties);
 }
