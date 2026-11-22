@@ -24,11 +24,11 @@ const contactLabel = profile.bookingUrl ? "Book a 15-min chat" : "Say hi";
     <h2>The full profile</h2>
     <p>Everything in the room, no controller required.</p>
   </div>
-  <Experience items={profile.experience} />
   <section id="intro" aria-labelledby="intro-title">
     <h2 class="section-title" id="intro-title">Intro tape</h2>
     <div class="intro-tape"><VideoIntro client:visible {...profile.video} bookingUrl={profile.bookingUrl} /></div>
   </section>
+  <Experience items={profile.experience} />
   <RoleFitChecker client:visible />
   <FitList {...profile.fit} />
   <Projects projects={profile.projects} more={profile.moreProjects} />

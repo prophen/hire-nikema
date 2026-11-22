@@ -43,7 +43,7 @@ export function Hero({ profile, companyNote, classic, frozen }: Props) {
         <nav className="socials" aria-label="Social links">
           {profile.socials.map((s) => <a key={s.href} href={s.href} rel="me noopener">{s.label}</a>)}
           <a href={profile.resumeUrl}>Résumé</a>
-          {profile.email && <a href={`mailto:${profile.email}`}>{profile.email}</a>}
+          {profile.email && <a href={`mailto:${profile.email}`}>Email me</a>}
           <a href="/nikema.md">nikema.md</a>
         </nav>
       </div>
