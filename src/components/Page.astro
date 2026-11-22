@@ -27,12 +27,12 @@ const contactLabel = profile.bookingUrl ? "Book a 15-min chat" : "Say hi";
     <h2 class="section-title" id="intro-title">Intro tape</h2>
     <div class="intro-tape"><VideoIntro client:visible {...profile.video} /></div>
   </section>
-  <RoleFitChecker client:visible />
   <FitList {...profile.fit} />
   <Projects projects={profile.projects} more={profile.moreProjects} />
   <ContentCommunity content={profile.content} community={profile.community} />
   <HowIWork items={profile.howIWork} />
   <Testimonials items={profile.testimonials} />
+  <RoleFitChecker client:visible />
   <NowAndLogistics now={profile.now} logistics={profile.logistics} />
   <Footer client:visible handle={profile.handle} contactUrl={contactUrl} contactLabel={contactLabel} />
 </main>
