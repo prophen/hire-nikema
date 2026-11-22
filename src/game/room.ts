@@ -46,7 +46,7 @@ const range = (x0: number, x1: number, y0: number, y1: number): Pt[] => {
 
 export function buildThings(p: Profile, company?: { name: string; agent?: boolean }): Thing[] {
   const name = p.name.split(" ")[0].toUpperCase();
-  const phone: Thing[] = company?.agent ? [{
+  const phone: Thing[] = (!company || company.agent) ? [{
     id: "phone", tiles: [[1, 4]], solid: true, panel: "ask",
     lines: ["A red phone. Ask Nikema's AI guide about her work.", "Press A to chat or start a voice call."],
   }] : [];
