@@ -374,3 +374,15 @@ body[data-theme="twilio"] .hero .note { border-left: 5px solid #f22f46; padding-
   .ask-nikema form .btn { width: 100%; justify-content: center; min-height: 48px; }
   .ask-nikema .agent-disclosure { margin-top: 32px; }
 }
+
+/* Keep the Twilio guide's controls in the red brand palette. */
+body[data-theme="twilio"] .ask-nikema .agent-modes { border-color: var(--red); }
+body[data-theme="twilio"] .ask-nikema .agent-modes button,
+body[data-theme="twilio"] .ask-nikema .agent-suggestions button { color: var(--red); }
+body[data-theme="twilio"] .ask-nikema .agent-modes button[aria-pressed="true"],
+body[data-theme="twilio"] .ask-nikema .btn { background: var(--red); color: #fff; }
+body[data-theme="twilio"] .ask-nikema .btn { box-shadow: inset 0 -4px 0 var(--red-dark), 3px 3px 0 var(--ink); }
+body[data-theme="twilio"] .ask-nikema .btn:hover:not(:disabled),
+body[data-theme="twilio"] .ask-nikema .agent-modes button[aria-pressed="true"]:hover:not(:disabled) { background: var(--red-dark); }
+body[data-theme="twilio"] .ask-nikema .btn:disabled { opacity: .55; }
+body[data-theme="twilio"] .ask-nikema button:focus-visible { outline-color: var(--red); }
