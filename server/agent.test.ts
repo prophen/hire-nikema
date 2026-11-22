@@ -14,7 +14,8 @@ test("knowledge includes the actual résumé and built profile", () => {
   assert.match(knowledge, /PUBLIC PROFILE/); assert.match(knowledge, /RESUME/);
 });
 test("phone exists only for enabled companies and is reachable", () => {
-  assert.equal(buildThings(profile).find((t) => t.id === "phone"), undefined);
+  assert.notEqual(buildThings(profile).find((t) => t.id === "phone"), undefined);
+  assert.equal(buildThings(profile, { name: "Acme" }).find((t) => t.id === "phone"), undefined);
   const things = buildThings(profile, { name: "Twilio", agent: true });
   const phone = things.find((t) => t.id === "phone")!;
   assert.equal(phone.panel, "ask");
