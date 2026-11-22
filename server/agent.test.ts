@@ -13,12 +13,19 @@ test("knowledge includes the actual résumé and built profile", () => {
   assert.match(knowledge, /PayPal/); assert.match(knowledge, /Impossible Hires/);
   assert.match(knowledge, /PUBLIC PROFILE/); assert.match(knowledge, /RESUME/);
 });
-test("phone exists only for enabled companies and is reachable", () => {
-  assert.equal(buildThings(profile).find((t) => t.id === "phone"), undefined);
-  const things = buildThings(profile, { name: "Twilio", agent: true });
-  const phone = things.find((t) => t.id === "phone")!;
-  assert.equal(phone.panel, "ask");
-  assert.notEqual(findPath(solidGrid(things), START, standSpots(phone, CAT_START).map((s) => s.at), [CAT_START]), null);
+test("phone is reachable on the main page and enabled company pages", () => {
+  for (const company of [undefined, { name: "Twilio", agent: true }]) {
+    const things = buildThings(profile, company);
+    const phone = things.find((t) => t.id === "phone");
+    assert.ok(phone);
+    assert.equal(phone.panel, "ask");
+    assert.notEqual(findPath(solidGrid(things), START, standSpots(phone, CAT_START).map((s) => s.at), [CAT_START]), null);
+  }
+});
+test("phone stays absent on company pages that have not enabled the guide", () => {
+  for (const company of [{ name: "Example" }, { name: "Example", agent: false }]) {
+    assert.equal(buildThings(profile, company).find((t) => t.id === "phone"), undefined);
+  }
 });
 test("model receives source grounding, bounded output, and voice instructions", async (t) => {
   t.mock.method(globalThis, "fetch", async (_url: unknown, init: RequestInit) => {

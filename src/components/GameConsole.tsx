@@ -40,9 +40,10 @@ function reducedMotion() {
  * Tapping or clicking a spot in the room walks there; tapping a thing walks over and inspects it.
  */
 export function GameConsole({ profile, company, classic: classicInitial = false, frozen = false }: Props) {
-  const roomMenu = useMemo(() => company?.agent
+  const showAgent = !company || Boolean(company.agent);
+  const roomMenu = useMemo(() => showAgent
     ? [...MENU, { panel: "ask" as const, label: "ASK NIKEMA", title: "Ask Nikema's AI guide" }]
-    : MENU, [company?.agent]);
+    : MENU, [showAgent]);
   const things = useMemo(() => buildThings(profile, company), [profile, company]);
   const solid = useMemo(() => solidGrid(things), [things]);
   const name = profile.name.split(" ")[0].toUpperCase();
@@ -269,7 +270,7 @@ export function GameConsole({ profile, company, classic: classicInitial = false,
     if (!ctx) return;
     const bg = document.createElement("canvas");
     bg.width = WIDTH; bg.height = HEIGHT;
-    drawRoom(bg.getContext("2d")!, company?.agent);
+    drawRoom(bg.getContext("2d")!, showAgent);
     const reduce = reducedMotion();
 
     const blocked = (x: number, y: number, self: "player" | "cat") => {
@@ -386,7 +387,7 @@ export function GameConsole({ profile, company, classic: classicInitial = false,
     raf = requestAnimationFrame(frame);
     return () => { cancelAnimationFrame(raf); io.disconnect(); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [things, solid, profile, frozen, company?.agent]);
+  }, [things, solid, profile, frozen, showAgent]);
 
   // ---------- panel ----------
   useEffect(() => {

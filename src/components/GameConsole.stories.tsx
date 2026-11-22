@@ -33,3 +33,6 @@ export const TwilioPhone: Story = {
     await expect(c.getByRole("menuitem", { name: /ASK NIKEMA/ })).toBeInTheDocument();
   },
 };
+
+/** The main room exposes the same AI-guide phone as the Twilio room. */
+export const MainPagePhone: Story = { ...TwilioPhone, args: {} };
