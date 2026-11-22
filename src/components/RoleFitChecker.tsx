@@ -2,6 +2,7 @@ import { useId, useState } from "react";
 import { checkFit } from "../data/skills";
 import { PixelWindow } from "./PixelWindow";
 import { Section } from "./Section";
+import { track } from "../lib/analytics";
 
 type Props = { initialText?: string; bare?: boolean };
 
@@ -16,7 +17,17 @@ export function RoleFitChecker({ initialText = "", bare }: Props) {
       <PixelWindow title="FIT CHECK">
         <form
           className="checker"
-          onSubmit={(e) => { e.preventDefault(); setResult(checkFit(text)); }}
+          onSubmit={(e) => {
+            e.preventDefault();
+            const r = checkFit(text);
+            setResult(r);
+            // Only the result, never the pasted job description.
+            track("fit_check_run", {
+              score: r.score,
+              matched: r.hits.map((h) => h.label),
+              gaps: r.misses.map((m) => m.label),
+            });
+          }}
         >
           <label htmlFor={id} className="sr-only">Job description</label>
           <textarea
@@ -27,7 +38,7 @@ export function RoleFitChecker({ initialText = "", bare }: Props) {
           />
           <div className="row">
             <button className="btn" type="submit" disabled={!text.trim()}>Run fit check</button>
-            <span className="dim small">keyword match · nothing leaves your browser</span>
+            <span className="dim small">keyword match · the text you paste stays in your browser</span>
           </div>
           {result && (
             <div className="out" aria-live="polite">

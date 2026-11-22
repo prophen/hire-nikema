@@ -9,6 +9,7 @@ import {
   ALERT_HEIGHT, classicAvatar, drawAlert, drawCat, drawClockHands, drawPCScreen, drawPlayer, drawRoom, drawTVScreen, toClassicPalette,
 } from "../game/sprites";
 import { PanelContent } from "./GamePanels";
+import { track } from "../lib/analytics";
 
 type Props = {
   profile: Profile;
@@ -120,6 +121,7 @@ export function GameConsole({ profile, company, classic: classicInitial = false,
 
   // ---------- actions ----------
   const openPanel = useCallback((id: PanelId) => {
+    track("room_panel_opened", { panel: id });
     setPanel(id);
     setSeen((s) => (s.includes(id) ? s : [...s, id]));
   }, []);

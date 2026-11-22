@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import type { Chapter } from "../data/profile";
+import { track } from "../lib/analytics";
 
 type Props = {
   src?: string;
@@ -31,7 +32,11 @@ export function VideoIntro({ src, poster, captions, chapters, transcript }: Prop
     <div className="video">
       <div className="video-frame">
         {hasVideo ? (
-          <video ref={ref} src={src} poster={poster || undefined} controls playsInline preload="metadata">
+          <video
+            ref={ref} src={src} poster={poster || undefined} controls playsInline preload="metadata"
+            onPlay={(e) => track("intro_video_played", { at: Math.round(e.currentTarget.currentTime) })}
+            onEnded={() => track("intro_video_finished")}
+          >
             {captions && <track kind="captions" src={captions} srcLang="en" label="English" default />}
           </video>
         ) : (
