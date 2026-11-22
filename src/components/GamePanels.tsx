@@ -13,7 +13,7 @@ import { VideoIntro } from "./VideoIntro";
 export function PanelContent({ id, profile: p }: { id: PanelId; profile: Profile }) {
   switch (id) {
     case "intro":
-      return <VideoIntro {...p.video} />;
+      return <VideoIntro {...p.video} bookingUrl={p.bookingUrl} />;
     case "projects":
       return <Projects projects={p.projects} more={p.moreProjects} bare />;
     case "content":

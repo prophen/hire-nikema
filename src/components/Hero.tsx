@@ -29,20 +29,21 @@ export function Hero({ profile, companyNote, classic, frozen }: Props) {
             <b>For {companyNote.name}:</b> {companyNote.note}
           </p>
         )}
-        <p className="skip mobile-only"><a className="btn ghost" href="#profile">See the work ↓</a></p>
       </div>
       <div className="hero-rest">
         <p className="summary">{profile.summary}</p>
+        <p className="proof">{profile.proof}</p>
         <p className="quest">
           Explore my room to see my work. The TV has my intro, the PC has my projects, and the cat checks job posts.
         </p>
         <div className="actions">
           <a className="btn" href={contact}>{profile.bookingUrl ? "Book a 15-min chat" : "Say hi"}</a>
-          <a className="btn ghost desktop-only" href="#profile">See the work ↓</a>
+          <a className="btn ghost" href="#profile">See the work ↓</a>
         </div>
         <nav className="socials" aria-label="Social links">
           {profile.socials.map((s) => <a key={s.href} href={s.href} rel="me noopener">{s.label}</a>)}
           <a href={profile.resumeUrl}>Résumé</a>
+          {profile.email && <a href={`mailto:${profile.email}`}>{profile.email}</a>}
           <a href="/nikema.md">nikema.md</a>
         </nav>
       </div>

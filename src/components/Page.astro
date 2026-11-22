@@ -2,6 +2,7 @@
 // Composes the full page: the playable room up top, then the same content as plain sections.
 import { profile } from "../data/profile";
 import type { Company } from "../data/companies";
+import { Experience } from "./Experience";
 import { Hero } from "./Hero";
 import { VideoIntro } from "./VideoIntro";
 import { FitList } from "./FitList";
@@ -23,9 +24,10 @@ const contactLabel = profile.bookingUrl ? "Book a 15-min chat" : "Say hi";
     <h2>The full profile</h2>
     <p>Everything in the room, no controller required.</p>
   </div>
+  <Experience items={profile.experience} />
   <section id="intro" aria-labelledby="intro-title">
     <h2 class="section-title" id="intro-title">Intro tape</h2>
-    <div class="intro-tape"><VideoIntro client:visible {...profile.video} /></div>
+    <div class="intro-tape"><VideoIntro client:visible {...profile.video} bookingUrl={profile.bookingUrl} /></div>
   </section>
   <RoleFitChecker client:visible />
   <FitList {...profile.fit} />

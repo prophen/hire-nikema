@@ -94,20 +94,23 @@ h1, h2, h3 { text-wrap: balance; }
 .hero-rest { grid-area: rest; }
 .hero-game { grid-area: game; min-width: 0; }
 @media (max-width: 899px) {
-  .hero { grid-template-columns: minmax(0, 1fr); grid-template-areas: "top" "game" "rest"; row-gap: 24px; }
+  .hero { grid-template-columns: minmax(0, 1fr); grid-template-areas: "top" "rest" "game"; row-gap: 24px; }
   .hero-game { display: grid; }
   .hero .desktop-only { display: none; }
 }
 @media (min-width: 900px) { .hero .mobile-only { display: none; } }
 .gb-panel-head h2:focus { outline: none; }
-.hero-kicker { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 18px; font: 10px/1.6 var(--px); background: var(--box); border: 2px solid var(--ink); padding: 6px 10px; border-radius: 3px; }
+.hero-kicker { display: inline-flex; align-items: center; gap: 10px; margin: 0 0 18px; font: 12px/1.6 var(--px); background: var(--box); border: 2px solid var(--ink); padding: 6px 10px; border-radius: 3px; }
 .status-dot { width: 8px; height: 8px; background: #3fae4f; box-shadow: 0 0 0 2px var(--ink); animation: blink 1.2s steps(2) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
 .hero h1 { font: clamp(22px, 4vw, 34px)/1.35 var(--px); margin: 0 0 18px; color: var(--ink); text-shadow: 3px 3px 0 var(--paper-dot); }
 .hero h1 .l2 { display: block; font: 600 clamp(20px, 2.6vw, 26px)/1.3 var(--body); color: var(--red); margin-top: 12px; text-shadow: none; }
 .hero .note { background: var(--gold-bg); border: 2px solid var(--ink); border-radius: 4px; padding: 10px 14px; margin: 0 0 16px; }
 .hero .summary { margin: 0 0 12px; max-width: 46ch; font-size: 20px; }
-.hero .skip { margin: 0; }
+.hero .proof { margin: 0 0 18px; max-width: 48ch; font-size: 18px; }
+.experience-list { display: grid; gap: 16px; }
+.experience-list h3 { margin: 0 0 8px; }
+.experience-list p { margin: 6px 0 0; }
 .hero .quest { margin: 0 0 22px; max-width: 46ch; color: var(--ink-2); }
 .actions { display: flex; flex-wrap: wrap; gap: 14px; }
 .socials { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 22px; }
