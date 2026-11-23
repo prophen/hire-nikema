@@ -31,6 +31,7 @@ export const profile = {
   summary:
     "I build AI-assisted apps in public, then show developers how they work: the implementation, the debugging, and the trade-offs.",
   proof: "Former PayPal Developer Advocate and engineer on developer.paypal.com. Winner, Best Use of ElevenLabs, Hacktoberfest 2026.",
+  mobileProof: "Ex-PayPal DevRel · Best Use of ElevenLabs winner",
   experience: [
     { employer: "PayPal", role: "Software Engineer", dates: "Sep 2023 – Apr 2025", summary: "Built the Developer Program experience on developer.paypal.com and maintained onboarding and documentation apps." },
     { employer: "PayPal", role: "Developer Advocate", dates: "Apr 2022 – Sep 2023", summary: "Created API onboarding materials, integration guides, and tutorials; brought developer feedback to product and engineering." },
