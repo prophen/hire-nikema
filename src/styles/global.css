@@ -99,6 +99,10 @@ h1, h2, h3 { text-wrap: balance; }
 .hero-cta { order: 4; }
 .hero-rest .socials { order: 5; }
 .hero-game { grid-area: game; min-width: 0; }
+.hero-location { font-size: 16px; margin: 12px 0; }
+.voice-proof { max-width: 398px; margin: 20px auto 0; font-size: 16px; }
+.voice-proof strong { color: var(--red); }
+.voice-proof p { margin: 8px 0; }
 @media (max-width: 899px) {
   .hero { grid-template-columns: minmax(0, 1fr); grid-template-areas: "top" "cta" "game" "rest"; grid-template-rows: auto; row-gap: 24px; }
   .hero-copy { display: contents; }

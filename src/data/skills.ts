@@ -27,7 +27,8 @@ export const gaps: { label: string; terms: string[] }[] = [
   { label: "Kubernetes", terms: ["kubernetes", "k8s"] },
   { label: "mobile (iOS / Android)", terms: ["ios", "android", "swift"] },
   { label: ".NET / C#", terms: [".net", "c#"] },
-  { label: "conference keynotes", terms: ["keynote", "conference speak", "public speaking"] },
+  { label: "conference keynotes", terms: ["keynote", "conference speak"] },
+  { label: "public speaking", terms: ["public speaking"] },
 ];
 
 const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -47,7 +48,16 @@ const matches = (text: string, terms: string[]) => terms.some((term) => termPatt
 export function checkFit(text: string) {
   const t = text.toLowerCase();
   const hits = skills.filter((s) => matches(t, s.terms));
-  const misses = gaps.filter((g) => matches(t, g.terms));
+  // This qualification offers alternatives; writing and organizing are documented.
+  // Remove only that clause before checking gaps, preserving separate talk requirements.
+  const alternatives = /public speaking,\s*writing,\s*(?:and\/or|or)\s*organizing(?: engaging)? programs/g;
+  const gapText = t.replace(alternatives, "");
+  if (gapText !== t) hits.push({
+    label: "writing & program organizing",
+    terms: [],
+    evidence: "PayPal tutorials, project videos, and Spinnaker Contributor Experience co-lead; evidence for the writing/organizing alternatives, not conference keynotes",
+  });
+  const misses = gaps.filter((g) => matches(gapText, g.terms));
   const total = hits.length + misses.length;
   const score = total === 0 ? 0 : Math.round((hits.length / total) * 100);
   return { hits, misses, score };

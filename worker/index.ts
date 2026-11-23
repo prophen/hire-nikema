@@ -23,11 +23,39 @@ async function limitedBody(request: Request) {
   } finally { reader.releaseLock(); }
 }
 
-/** Only global quota accounting is coordinated here; each call has its own object. */
+// Cloudflare supplies this header at ingress. Never trust Origin, cookies, or
+// X-Forwarded-For as a visitor identity. Missing IPs share a restricted bucket.
+async function visitorBudget(request: Request, env: Env) {
+  const day = new Date().toISOString().slice(0, 10);
+  const ip = request.headers.get("CF-Connecting-IP") || "unknown";
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(`${day}:${ip}`));
+  const key = Array.from(new Uint8Array(digest), (b) => b.toString(16).padStart(2, "0")).join("");
+  return env.BUDGET.getByName(`visitor:${day}:${key}`);
+}
+
+/** Separate named objects hold global daily quotas and each visitor's daily quotas. */
 export class DailyBudget extends DurableObject<Env> {
   constructor(ctx: DurableObjectState, env: Env) {
     super(ctx, env);
     this.ctx.storage.sql.exec("CREATE TABLE IF NOT EXISTS counts (kind TEXT PRIMARY KEY, n INTEGER NOT NULL)");
+  }
+  async spendVisitor(kind: "chat" | "tokens") {
+    const limits = { chat: { minute: 6, day: 20 }, tokens: { minute: 1, day: 3 } }[kind];
+    const now = Date.now();
+    const minute = Math.floor(now / 60000);
+    this.ctx.storage.sql.exec("CREATE TABLE IF NOT EXISTS visitor_counts (kind TEXT PRIMARY KEY, total INTEGER NOT NULL, minute INTEGER NOT NULL, recent INTEGER NOT NULL)");
+    // A single conditional write keeps both limits atomic under concurrent requests.
+    const rows = this.ctx.storage.sql.exec<{ total: number }>(
+      `INSERT INTO visitor_counts (kind,total,minute,recent) VALUES (?,1,?,1)
+       ON CONFLICT(kind) DO UPDATE SET total=total+1, minute=excluded.minute,
+         recent=CASE WHEN minute=excluded.minute THEN recent+1 ELSE 1 END
+       WHERE total < ? AND (minute != excluded.minute OR recent < ?) RETURNING total`,
+      kind, minute, limits.day, limits.minute).toArray();
+    if (!await this.ctx.storage.getAlarm()) await this.ctx.storage.setAlarm(now + 172800000);
+    if (rows.length) return { allowed: true, retryAfter: 0 };
+    const { total } = this.ctx.storage.sql.exec<{ total: number }>("SELECT total FROM visitor_counts WHERE kind=?", kind).one();
+    const reset = total >= limits.day ? (Math.floor(now / 86400000) + 1) * 86400000 : (minute + 1) * 60000;
+    return { allowed: false, retryAfter: Math.max(1, Math.ceil((reset - now) / 1000)) };
   }
   async spend(kind: "answers" | "calls" | "tokens") {
     const limit = { answers: 200, calls: 20, tokens: 100 }[kind];
@@ -138,6 +166,13 @@ export default {
     const headers: Record<string, string> = { "Cache-Control": "no-store", Vary: "Origin" };
     if (allowed) headers["Access-Control-Allow-Origin"] = origin;
     const json = (status: number, data: unknown) => Response.json(data, { status, headers });
+    const limitVisitor = async (kind: "chat" | "tokens") => {
+      const result = await (await visitorBudget(request, env)).spendVisitor(kind);
+      if (result.allowed) return null;
+      return Response.json({ error: "Visitor demo limit reached. Please try again later." }, {
+        status: 429, headers: { ...headers, "Retry-After": String(result.retryAfter) },
+      });
+    };
     try {
       if (url.pathname === "/health" && request.method === "GET") return json(200, { chat: Boolean(env.OPENAI_API_KEY), voice: voiceReady(env) });
       const relayId = url.pathname.match(/^\/relay\/(visitor-[a-f0-9-]{36})$/)?.[1];
@@ -169,11 +204,15 @@ export default {
         let data;
         try { data = JSON.parse(await limitedBody(request)); } catch { return json(400, { error: "Invalid JSON" }); }
         if (!validMessages(data?.messages)) return json(400, { error: "Invalid messages" });
+        const limited = await limitVisitor("chat");
+        if (limited) return limited;
         if (!await budget(env).spend("answers")) return json(429, { error: "Daily limit reached" });
         return json(200, { answer: await answer(data.messages, knowledge, request.signal, false, env) });
       }
       if (url.pathname === "/voice/token" && request.method === "POST") {
         if (!voiceReady(env)) return json(503, { error: "Voice unavailable" });
+        const limited = await limitVisitor("tokens");
+        if (limited) return limited;
         if (!await budget(env).spend("tokens")) return json(429, { error: "Daily limit reached" });
         const identity = `visitor-${crypto.randomUUID()}`;
         await env.SESSIONS.getByName(identity).issue();

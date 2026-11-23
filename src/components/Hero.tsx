@@ -4,7 +4,7 @@ import { GameConsole } from "./GameConsole";
 type Props = {
   profile: Profile;
   /** Optional per-company line shown on /for/<company> pages. */
-  companyNote?: { name: string; note: string; role?: string; agent?: boolean; jobDescription?: string };
+  companyNote?: { locationNote?: string; name: string; note: string; role?: string; agent?: boolean; jobDescription?: string };
   /** Start the room in the four-shade green palette. */
   classic?: boolean;
   /** Hold the room still, for visual tests. */
@@ -25,6 +25,7 @@ export function Hero({ profile, companyNote, classic, frozen }: Props) {
           <span className="l2">{profile.headline.join(" ")}</span>
         </h1>
         <p className="proof mobile-only">{profile.mobileProof}</p>
+        {companyNote?.locationNote && <p className="hero-location">{companyNote.locationNote}</p>}
         {companyNote && (
           <p className="note">
             <b>For {companyNote.name}:</b> {companyNote.note}
@@ -52,6 +53,11 @@ export function Hero({ profile, companyNote, classic, frozen }: Props) {
       </div>
       <div className="hero-game">
         <GameConsole profile={profile} company={companyNote} classic={classic} frozen={frozen} />
+        {(!companyNote || companyNote.agent) && <div className="voice-proof">
+          <strong>Built with Twilio Voice</strong>
+          <p>The red phone opens my AI guide. Choose Call to talk in your browser: Twilio Voice and ConversationRelay connect you to answers grounded in my résumé and projects.</p>
+          <a href="https://github.com/prophen/hire-nikema/blob/main/docs/twilio-page.md">How it works & source code ↗</a>
+        </div>}
       </div>
     </header>
   );
