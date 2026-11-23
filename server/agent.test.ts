@@ -44,3 +44,28 @@ test("model failures and empty output do not masquerade as answers", async (t) =
   mock.mock.mockImplementation(async () => Response.json({ choices: [] }));
   await assert.rejects(answer([{ role: "user", content: "Hi" }], "", new AbortController().signal));
 });
+
+test("Twilio's writing/organizing alternative does not invent a keynote requirement", async () => {
+  const { checkFit } = await import("../src/data/skills.ts");
+  const { readFileSync } = await import("node:fs");
+  const posting = readFileSync(new URL("../src/data/jobs/twilio.txt", import.meta.url), "utf8");
+  const result = checkFit(posting);
+  assert.ok(result.hits.some((hit) => hit.label === "writing & program organizing"));
+  assert.ok(!result.misses.some((gap) => /speaking|keynote/.test(gap.label)));
+  const explicit = checkFit(`${posting}\nConference keynotes and public speaking are required separately.`);
+  assert.ok(explicit.misses.some((gap) => gap.label === "conference keynotes"));
+  assert.ok(explicit.misses.some((gap) => gap.label === "public speaking"));
+});
+
+test("chat and voice receive certificate, timeline, and contact guardrails", async (t) => {
+  t.mock.method(globalThis, "fetch", async (_url: unknown, init: RequestInit) => {
+    const system = JSON.parse(String(init.body)).messages[0].content;
+    assert.match(system, /do not infer Python proficiency or production Python experience/);
+    assert.match(system, /production work is JavaScript and TypeScript/);
+    assert.match(system, /two 2025 certificates and Impossible Hires/);
+    assert.match(system, /without implying those activities explain the entire interval/);
+    assert.match(system, /booking link or public recruiting email/);
+    return Response.json({ choices: [{ message: { content: "Grounded response." } }] });
+  });
+  for (const voice of [false, true]) await answer([{ role: "user", content: "What happened after PayPal?" }], loadKnowledge(), new AbortController().signal, voice);
+});

@@ -30,8 +30,11 @@ export const profile = {
   headline: ["Developer advocate.", "Demo builder."],
   summary:
     "I build AI-assisted apps in public, then show developers how they work: the implementation, the debugging, and the trade-offs.",
+  description: "Former PayPal Developer Advocate and engineer. DevRel, AI demos, and developer education from Nikema Prophet, a Best Use of ElevenLabs winner.",
   proof: "Former PayPal Developer Advocate and engineer on developer.paypal.com. Winner, Best Use of ElevenLabs, Hacktoberfest 2026.",
+  mobileProof: "Ex-PayPal DevRel · Best Use of ElevenLabs winner",
   experience: [
+    { employer: "Impossible Hires", role: "Founder and Engineer", dates: "Oct 2026 – Present", summary: "Building an opt-in talent network for technical creatives with React, TypeScript, Cloudflare Workers, and Neon Postgres. Created a public site and fictional-profile demo to explain consent-based introductions." },
     { employer: "PayPal", role: "Software Engineer", dates: "Sep 2023 – Apr 2025", summary: "Built the Developer Program experience on developer.paypal.com and maintained onboarding and documentation apps." },
     { employer: "PayPal", role: "Developer Advocate", dates: "Apr 2022 – Sep 2023", summary: "Created API onboarding materials, integration guides, and tutorials; brought developer feedback to product and engineering." },
     { employer: "Armory", role: "Community Marketing Manager", dates: "Aug 2020 – Oct 2021", summary: "Produced developer content and educational series for DevOps and continuous-delivery audiences." },

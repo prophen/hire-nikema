@@ -81,7 +81,7 @@ export function AskNikema() {
         import("@twilio/voice-sdk"),
         fetch(`${endpoint}/voice/token`, { method: "POST", signal: AbortSignal.timeout(15000) }),
       ]);
-      if (!response.ok) throw new Error("Voice is unavailable right now. Please try typed chat.");
+      if (!response.ok) throw new Error(response.status === 429 ? "The voice demo limit has been reached. Please try again later or use typed chat." : "Voice is unavailable right now. Please try typed chat.");
       const { token } = await response.json();
       if (generation !== callGeneration.current) return;
       const d = new sdk.Device(token);

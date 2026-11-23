@@ -91,10 +91,27 @@ h1, h2, h3 { text-wrap: balance; }
 /* ---------- hero ---------- */
 .hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "top game" "rest game"; grid-template-rows: auto 1fr; column-gap: 40px; align-items: start; }
 .hero-top { grid-area: top; }
-.hero-rest { grid-area: rest; }
+.hero-copy { grid-area: rest; display: flex; flex-direction: column; }
+.hero-rest { display: contents; }
+.hero-rest .summary { order: 1; }
+.hero-rest .proof { order: 2; }
+.hero-rest .quest { order: 3; }
+.hero-cta { order: 4; }
+.hero-rest .socials { order: 5; }
 .hero-game { grid-area: game; min-width: 0; }
+.hero-location { font-size: 16px; margin: 12px 0; }
+.voice-proof { max-width: 398px; margin: 20px auto 0; font-size: 16px; }
+.voice-proof strong { color: var(--red); }
+.voice-proof p { margin: 8px 0; }
 @media (max-width: 899px) {
-  .hero { grid-template-columns: minmax(0, 1fr); grid-template-areas: "top" "rest" "game"; row-gap: 24px; }
+  .hero { grid-template-columns: minmax(0, 1fr); grid-template-areas: "top" "cta" "game" "rest"; grid-template-rows: auto; row-gap: 24px; }
+  .hero-copy { display: contents; }
+  .hero-cta { grid-area: cta; }
+  .hero-rest { grid-area: rest; display: flex; flex-direction: column; }
+  .hero-rest .quest { order: 0; margin-bottom: 16px; }
+  .hero-rest .socials { order: 1; margin: 0 0 22px; }
+  .hero-rest .summary { order: 2; }
+  .hero .hero-top .proof { margin-bottom: 0; font-size: 16px; }
   .hero-game { display: grid; }
   .hero .desktop-only { display: none; }
 }

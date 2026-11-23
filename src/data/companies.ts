@@ -5,6 +5,7 @@ import twilioJobDescription from "./jobs/twilio.txt?raw";
 export type Company = {
   slug: string;
   name: string;
+  locationNote?: string;
   note: string; // one or two sentences on why this team
   role?: string;
   jobDescription?: string;
@@ -20,6 +21,7 @@ export const companies: Company[] = [
   {
     slug: "twilio",
     name: "Twilio",
+    locationNote: "Based in Sacramento · Willing to relocate to the Bay Area for this role.",
     role: "Developer Evangelist",
     jobDescription: twilioJobDescription.trim(),
     theme: "twilio",

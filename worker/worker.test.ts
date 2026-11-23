@@ -1,5 +1,5 @@
 import { env } from "cloudflare:workers";
-import { evictDurableObject, runDurableObjectAlarm } from "cloudflare:test";
+import { evictDurableObject, runDurableObjectAlarm, runInDurableObject } from "cloudflare:test";
 import { afterEach, expect, test, vi } from "vitest";
 import worker from "./index";
 import type { Env } from "./env";
@@ -72,4 +72,61 @@ test("peer hangup completes the close handshake and clears the session", async (
   socket.close(1000, "Caller ended call");
   await closed;
   expect(await stub.claim()).toBe(false);
+});
+
+test("visitor limits are atomic, survive eviction, reset each minute, and retain daily caps", async () => {
+  const stub = bindings.BUDGET.getByName(crypto.randomUUID());
+  const outcomes = await Promise.all(Array.from({ length: 12 }, () => stub.spendVisitor("chat")));
+  expect(outcomes.filter((r) => r.allowed)).toHaveLength(6);
+  await evictDurableObject(stub);
+  expect((await stub.spendVisitor("chat")).allowed).toBe(false);
+  const nextMinute = () => runInDurableObject(stub, (_instance, state) => {
+    state.storage.sql.exec("UPDATE visitor_counts SET minute=0");
+  });
+  for (const expected of [6, 6, 2]) {
+    await nextMinute();
+    const batch = await Promise.all(Array.from({ length: 6 }, () => stub.spendVisitor("chat")));
+    expect(batch.filter((r) => r.allowed)).toHaveLength(expected);
+  }
+  await nextMinute();
+  expect((await stub.spendVisitor("chat")).allowed).toBe(false);
+  expect((await bindings.BUDGET.getByName(crypto.randomUUID()).spendVisitor("chat")).allowed).toBe(true);
+  for (let i = 0; i < 3; i++) {
+    await nextMinute();
+    expect((await stub.spendVisitor("tokens")).allowed).toBe(true);
+    expect((await stub.spendVisitor("tokens")).allowed).toBe(false);
+  }
+  await nextMinute();
+  expect((await stub.spendVisitor("tokens")).allowed).toBe(false);
+  await runDurableObjectAlarm(stub);
+  expect(await runInDurableObject(stub, (_instance, state) => state.storage.sql.exec("SELECT name FROM sqlite_master WHERE type='table' AND name='visitor_counts'").toArray())).toEqual([]);
+});
+
+test("spoofed origin and changing client headers cannot bypass chat admission limits", async () => {
+  const model = vi.spyOn(globalThis, "fetch").mockResolvedValue(Response.json({ choices: [{ message: { content: "Answer." } }] }));
+  // Return a fresh body for each model request.
+  model.mockImplementation(async () => Response.json({ choices: [{ message: { content: "Answer." } }] }));
+  const post = (i: number, ip = "192.0.2.11") => new Request("https://guide.example.test/chat", {
+    method: "POST", headers: { Origin: "https://hirenikema.app", "CF-Connecting-IP": ip, "X-Forwarded-For": `192.0.2.${i}`, Cookie: `visitor=${i}` },
+    body: JSON.stringify({ messages: [{ role: "user", content: "Tell me about PayPal" }] }),
+  });
+  for (let i = 0; i < 6; i++) expect((await worker.fetch(post(i), bindings)).status).toBe(200);
+  const rejected = await worker.fetch(post(99), bindings);
+  expect(rejected.status).toBe(429);
+  expect(Number(rejected.headers.get("Retry-After"))).toBeGreaterThan(0);
+  expect(rejected.headers.get("Access-Control-Allow-Origin")).toBe("https://hirenikema.app");
+  expect(model).toHaveBeenCalledTimes(6);
+  expect((await worker.fetch(post(1, "192.0.2.12"), bindings)).status).toBe(200);
+});
+
+test("voice tokens are throttled before new credentials are issued", async () => {
+  const configured = { ...bindings, TWILIO_AUTH_TOKEN: "test-auth", TWILIO_ACCOUNT_SID: "test-account", TWILIO_API_KEY: "test-key", TWILIO_API_SECRET: "test-secret", TWILIO_TWIML_APP_SID: "test-app" };
+  const post = () => new Request("https://guide.example.test/voice/token", {
+    method: "POST", headers: { Origin: "https://hirenikema.app", "CF-Connecting-IP": "192.0.2.21" },
+  });
+  expect((await worker.fetch(post(), configured)).status).toBe(200);
+  const rejected = await worker.fetch(post(), configured);
+  expect(rejected.status).toBe(429);
+  expect(await rejected.json()).not.toHaveProperty("token");
+  expect(Number(rejected.headers.get("Retry-After"))).toBeGreaterThan(0);
 });
