@@ -1,20 +1,12 @@
 # AI guide maintainer notes
 
-For the public walkthrough, see [Building a browser voice guide with Twilio](twilio-page.md). This document covers recording, configuration, deployment, and maintenance.
+For the public walkthrough, see [Building a browser voice guide with Twilio](twilio-page.md). This document covers the Twilio intro video, configuration, deployment, and maintenance.
 
 The static company page builds at `/for/twilio`. Its colors, copy, optional video, and agent flag live in `src/data/companies.ts`. The homepage also includes the guide and links to the public walkthrough. The red phone and START → ASK NIKEMA open the same guide component as the section below the room.
 
-## Optional company intro: draft recording script
+## Twilio intro video
 
-Suggested script (edit to sound like you):
-
-> Hi Twilio, I'm Nikema. I'm a developer advocate and engineer who builds things, then shows people how they work. I've worked on developer advocacy and developer experiences at PayPal, and lately I've been building AI-assisted apps in public.
->
-> For this page, I wanted to make my work something you can ask questions about. The red phone connects to an AI guide grounded in my résumé and public profile. You can ask about my projects, what I've learned, or my experience helping developers.
->
-> That's the kind of developer experience I like building: a working example you can try, with a clear explanation of how it works. Have a look around, and if you'd like to talk to the real me, my booking link is here too.
-
-Record after the guide is live, or change the wording to describe it as in progress. Put the video, poster and captions in `public/twilio/`, then add a complete `video` object to the Twilio company entry: `src`, `poster`, `captions`, `chapters`, `transcript`. Both views switch together. Until then, both show the existing general intro. Use actual recording timestamps for chapters and captions.
+The Twilio page has its own intro, `public/twilio/my-journey-with-twilio.*` (video, poster, captions). Its chapters and transcript are in the `video` object on the Twilio entry in `src/data/companies.ts`. The TV in the room and the Intro tape section both use it. If you re-cut the video, update the chapter times, captions, and transcript together. Company entries without a `video` fall back to the general intro.
 
 ## Cloudflare backend (deployed)
 

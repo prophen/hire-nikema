@@ -51,4 +51,4 @@ Questions and call audio are processed by the AI and communications providers. T
 
 The recorded live check on November 22, 2026 confirmed a grounded résumé answer, an unsupported-salary refusal, and a browser call that connected through the greeting and hung up. A full audible question-and-answer exchange, interruption quality, and the three-minute cutoff still need a live human check. Automated tests cover signature validation, single-use admission, quota concurrency and persistence, and rejection before model calls or token issuance. Tests of the prompt verify the instructions supplied to the model, not guaranteed model compliance.
 
-Configuration, deployment commands, and the optional recording draft are in the [maintainer notes](ai-guide-maintenance.md).
+Configuration, deployment commands, and intro-video notes are in the [maintainer notes](ai-guide-maintenance.md).
