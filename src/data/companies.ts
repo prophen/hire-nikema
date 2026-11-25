@@ -14,12 +14,14 @@ export type Company = {
   headline?: string[];
   status?: string;
   summary?: string;
+  description?: string;
   video?: import("./profile").Profile["video"];
 };
 
 export const companies: Company[] = [
   {
     slug: "twilio",
+    description: "Meet Nikema Prophet, a Sacramento-based developer advocate. Try the Twilio Voice AI guide demo and explore her projects and experience.",
     name: "Twilio",
     locationNote: "Based in Sacramento · Willing to relocate to the Bay Area for this role.",
     role: "Developer Evangelist",

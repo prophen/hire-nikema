@@ -23,7 +23,7 @@ const contactLabel = profile.bookingUrl ? "Book a 15-min chat" : "Say hi";
 ---
 <main class="page">
   <Hero client:load profile={profile} companyNote={company} />
-  <div id="profile" class="profile-intro">
+  <div id="profile" class="profile-intro" tabindex="-1">
     <h2>The full profile</h2>
     <p>Everything in the room, no controller required.</p>
   </div>

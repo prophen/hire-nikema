@@ -9,6 +9,6 @@ export function getStaticPaths() {
 }
 const { company } = Astro.props;
 ---
-<Layout title={`${profile.name} · for ${company.name}`} description={company.summary ?? profile.summary} theme={company.theme} noindex>
+<Layout title={`${profile.name} · for ${company.name}`} description={company.description ?? company.summary ?? profile.description} theme={company.theme} noindex>
   <Page company={company} />
 </Layout>
