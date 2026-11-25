@@ -35,13 +35,14 @@ export const companies: Company[] = [
       src: "/twilio/my-journey-with-twilio.mp4",
       poster: "/twilio/my-journey-with-twilio-poster.jpg",
       captions: "/twilio/my-journey-with-twilio.vtt",
+      // Exact sentence starts, so a chapter never opens on the end of the previous one.
       chapters: [
         { label: "Who I am", start: 0 },
-        { label: "SIGNAL 2019", start: 10 },
-        { label: "What I took away", start: 34 },
-        { label: "Applying to Twilio", start: 51 },
-        { label: "Building with Twilio again", start: 79 },
-        { label: "Meet my AI guide", start: 101 },
+        { label: "SIGNAL 2019", start: 10.54 },
+        { label: "What I took away", start: 34.77 },
+        { label: "Applying to Twilio", start: 51.84 },
+        { label: "Building with Twilio again", start: 79.3 },
+        { label: "Meet my AI guide", start: 108.4 },
       ],
       // Shown under the video. Keep it in sync with public/twilio/my-journey-with-twilio.vtt.
       transcript: [

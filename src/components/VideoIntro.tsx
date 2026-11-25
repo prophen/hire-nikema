@@ -11,7 +11,7 @@ type Props = {
   transcript: string[];
 };
 
-const fmt = (s: number) => `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
+const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
 
 /**
  * Intro video with chapter buttons and a transcript.
