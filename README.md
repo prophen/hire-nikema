@@ -42,4 +42,4 @@ Custom events, sent by `src/lib/analytics.ts`:
 
 ## Twilio page and AI guide
 
-`/for/twilio` has a dedicated theme, intro-video override, and red phone in the game. Read the [public walkthrough and source map](docs/twilio-page.md) for how the demo works. See the [maintainer notes](docs/ai-guide-maintenance.md) for backend configuration, recording drafts, deployment, and live verification steps. The backend is deployed at `https://hire-nikema-agent.nikema.workers.dev`; provider secrets are configured and chat/browser calls are enabled. Without a configured service, the guide displays a coming-soon state.
+`/for/twilio` has a dedicated theme, intro-video override, and red phone in the game. Read the [public walkthrough and source map](docs/twilio-page.md) for how the demo works. See the [maintainer notes](docs/ai-guide-maintenance.md) for backend configuration, the intro video, deployment, and live verification steps. The backend is deployed at `https://hire-nikema-agent.nikema.workers.dev`; provider secrets are configured and chat/browser calls are enabled. Without a configured service, the guide displays a coming-soon state.
