@@ -26,18 +26,18 @@ export function Hero({ profile, companyNote, classic, frozen }: Props) {
         </h1>
         <p className="proof mobile-only">{profile.mobileProof}</p>
         {companyNote?.locationNote && <p className="hero-location">{companyNote.locationNote}</p>}
-        {companyNote && (
-          <p className="note">
-            <b>For {companyNote.name}:</b> {companyNote.note}
-          </p>
-        )}
       </div>
       <div className="hero-copy">
         <div className="hero-cta actions">
           <a className="btn" href={contact}>{profile.bookingUrl ? "Book a 15-min chat" : "Say hi"}</a>
-          <a className="btn ghost desktop-only" href="#profile">See the work ↓</a>
+          <a className="btn ghost work-skip" href="#profile">See the work ↓</a>
         </div>
         <div className="hero-rest">
+          {companyNote && (
+            <p className="note">
+              <b>For {companyNote.name}:</b> {companyNote.note}
+            </p>
+          )}
           <p className="summary">{profile.summary}</p>
           <p className="proof desktop-only">{profile.proof}</p>
           <p className="quest">
@@ -55,7 +55,8 @@ export function Hero({ profile, companyNote, classic, frozen }: Props) {
         <GameConsole profile={profile} company={companyNote} classic={classic} frozen={frozen} />
         {(!companyNote || companyNote.agent) && <div className="voice-proof">
           <strong>Built with Twilio Voice</strong>
-          <p>The red phone opens my AI guide. Choose Call to talk in your browser: Twilio Voice and ConversationRelay connect you to answers grounded in my résumé and projects.</p>
+          <p>Red phone → Voice → “Talk to my AI guide.”</p>
+          <p>Twilio Voice and ConversationRelay connect you to answers grounded in my résumé and projects.</p>
           <a href="https://github.com/prophen/hire-nikema/blob/main/docs/twilio-page.md">How it works & source code ↗</a>
         </div>}
       </div>
