@@ -6,7 +6,9 @@ The static company page builds at `/for/twilio`. Its colors, copy, optional vide
 
 ## Twilio intro video
 
-The Twilio page has its own intro, `public/twilio/my-journey-with-twilio.*` (video, poster, captions). Its chapters and transcript are in the `video` object on the Twilio entry in `src/data/companies.ts`. The TV in the room and the Intro tape section both use it. If you re-cut the video, update the chapter times, captions, and transcript together. Company entries without a `video` fall back to the general intro.
+The Twilio page has its own intro. The video file is in the `hire-nikema` Cloudflare R2 bucket, served from its public `r2.dev` address, so the file stays out of git. Everything in that bucket is public. The poster and captions are in `public/twilio/`. Its chapters and transcript are in the `video` object on the Twilio entry in `src/data/companies.ts`. The TV in the room and the Intro tape section both use it. If you re-cut the video, upload it under a new file name, point `src` at it, and update the chapter times, captions, and transcript together. Company entries without a `video` fall back to the general intro.
+
+Cloudflare rate-limits `r2.dev` addresses and does not recommend them for busy production sites. For heavier traffic, put a custom domain (on a Cloudflare zone) or a Worker in front of the bucket.
 
 ## Cloudflare backend (deployed)
 

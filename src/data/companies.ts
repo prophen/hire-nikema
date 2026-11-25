@@ -30,9 +30,10 @@ export const companies: Company[] = [
     headline: ["Hello, Twilio.", "Let's build a conversation."],
     note: "The best way to explain an API is to build something people can try. Here's a little room for a conversation about my work.",
     summary: "I build AI-assisted apps in public and help developers understand how they work. Explore my projects, watch my intro, or ask my AI guide about my experience.",
-    // Files live in /public/twilio. Both the TV and the page use this instead of the general intro.
+    // The video is in the hire-nikema R2 bucket; poster and captions are in /public/twilio.
+    // Both the TV and the page use this instead of the general intro.
     video: {
-      src: "/twilio/my-journey-with-twilio.mp4",
+      src: "https://pub-d0914d3ef21c4d289905da342b239845.r2.dev/my-journey-with-twilio-web.mp4",
       poster: "/twilio/my-journey-with-twilio-poster.jpg",
       captions: "/twilio/my-journey-with-twilio.vtt",
       // Just before each sentence, and past the previous caption’s end so two captions never show at once.
